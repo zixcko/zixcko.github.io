@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konverter CSV/Excel ke Tabel | by zidan.design</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS untuk Desain dan Tampilan --- */
+        :root {
+            --primary-color: #3498db;
+            --primary-hover: #2980b9;
+            --secondary-color: #2ecc71;
+            --secondary-hover: #27ae60;
+            --background-color: #f4f6f9;
+            --container-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #576574;
+            --border-color: #dfe4ea;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 95%;
+            max-width: 1200px;
+            text-align: center;
+            margin: auto 0;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--text-light);
+            margin-bottom: 40px;
+        }
+
+        .upload-area {
+            margin-bottom: 30px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .upload-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 35px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .upload-button:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+        }
+
+        #tableContainer {
+            overflow-x: auto;
+            margin-top: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--container-bg);
+        }
+        
+        #tablePlaceholder {
+            color: var(--text-light);
+            padding: 60px 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #f8f9fa;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 14px 18px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #fcfcfc;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f5f8;
+        }
+
+        .copy-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+            opacity: 0; /* Sembunyikan tombol secara default */
+            transform: scale(0.8);
+            transition: all 0.2s ease;
+        }
+        
+        th:hover .copy-button {
+            opacity: 1; /* Tampilkan saat header di-hover */
+            transform: scale(1);
+        }
+
+        .copy-button:hover {
+            background-color: var(--secondary-hover);
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>✨ Konverter File ke Tabel Interaktif ✨</h1>
+        <p>Unggah file .csv atau .xls/.xlsx Anda. Data akan langsung diubah menjadi tabel yang rapi di bawah ini.</p>
+        
+        <div class="upload-area">
+            <input type="file" id="fileInput" accept=".csv, .xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <label for="fileInput" class="upload-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                    <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z"/>
+                </svg>
+                Pilih File
+            </label>
+        </div>
+
+        <div id="tableContainer">
+            <div id="tablePlaceholder">Tabel Anda akan muncul di sini...</div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Copyright © <span id="year"></span> | Dibuat dengan ❤️ oleh <a href="https://www.instagram.com/zidan.design/" target="_blank">zidan.design</a></p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    
+    <script>
+        // --- JavaScript untuk Fungsionalitas ---
+
+        document.getElementById('fileInput').addEventListener('change', handleFile);
+
+        function handleFile(event) {
+            const file = event.target.files[0];
+            if (!file) {
+                return;
+            }
+
+            const reader = new FileReader();
+            const fileName = file.name.toLowerCase();
+
+            // Menampilkan loader atau pesan loading (opsional)
+            const tableContainer = document.getElementById('tableContainer');
+            tableContainer.innerHTML = '<div id="tablePlaceholder">Memproses file, mohon tunggu...</div>';
+
+            if (fileName.endsWith('.csv')) {
+                // Proses file CSV menggunakan PapaParse
+                Papa.parse(file, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        if(results.data && results.data.length > 0) {
+                            generateTable(results.data);
+                        } else {
+                            handleError("File CSV kosong atau formatnya tidak valid.");
+                        }
+                    },
+                    error: function(err) {
+                        handleError("Gagal memproses file CSV: " + err.message);
+                    }
+                });
+            } else if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
+                // Proses file Excel menggunakan SheetJS/xlsx
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array' });
+                        const firstSheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheetName];
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                        
+                        if(jsonData.length > 0) {
+                            generateTable(jsonData);
+                        } else {
+                            handleError("Sheet pertama pada file Excel kosong.");
+                        }
+                    } catch (err) {
+                        handleError("Gagal membaca file Excel. Pastikan file tidak rusak.");
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                handleError("Format file tidak didukung. Harap unggah file .csv, .xls, atau .xlsx");
+            }
+        }
+
+        function generateTable(data) {
+            const tableContainer = document.getElementById('tableContainer');
+            tableContainer.innerHTML = ''; // Kosongkan kontainer
+
+            if (!data || data.length === 0) return;
+
+            const table = document.createElement('table');
+            const thead = document.createElement('thead');
+            const tbody = document.createElement('tbody');
+            const headerRow = document.createElement('tr');
+
+            // Buat Header Tabel
+            const headers = Object.keys(data[0]);
+            headers.forEach((headerText, index) => {
+                const th = document.createElement('th');
+                const textNode = document.createTextNode(headerText);
+                th.appendChild(textNode);
+                
+                const copyBtn = document.createElement('button');
+                copyBtn.innerHTML = 'Salin';
+                copyBtn.className = 'copy-button';
+                copyBtn.onclick = (e) => {
+                    e.stopPropagation(); // Mencegah event lain terpicu
+                    copyColumn(index);
+                };
+                
+                th.appendChild(copyBtn);
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Buat Isi Tabel (Baris Data)
+            data.forEach(rowData => {
+                const row = document.createElement('tr');
+                headers.forEach(header => {
+                    const cell = document.createElement('td');
+                    cell.textContent = rowData[header] !== undefined && rowData[header] !== null ? rowData[header] : ''; // Tampilkan string kosong jika data null/undefined
+                    row.appendChild(cell);
+                });
+                tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
+        }
+        
+        function handleError(message) {
+            const tableContainer = document.getElementById('tableContainer');
+            tableContainer.innerHTML = `<div id="tablePlaceholder" style="color: #e74c3c;">${message}</div>`;
+        }
+
+        function copyColumn(columnIndex) {
+            const table = document.querySelector('#tableContainer table');
+            if (!table) return;
+
+            const rows = table.querySelectorAll('tbody tr');
+            const columnData = Array.from(rows).map(row => {
+                const cell = row.querySelectorAll('td')[columnIndex];
+                return cell ? cell.textContent : '';
+            });
+            const columnText = columnData.join('\n');
+
+            navigator.clipboard.writeText(columnText.trim()).then(() => {
+                alert('Satu kolom berhasil disalin ke clipboard!');
+            }).catch(err => {
+                console.error('Gagal menyalin kolom: ', err);
+                alert('Gagal menyalin. Cek konsol browser untuk info lebih lanjut.');
+            });
+        }
+
+        // Set tahun saat ini untuk copyright
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
