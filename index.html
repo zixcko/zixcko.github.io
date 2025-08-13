@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konverter CSV/Excel ke Tabel | by zidan.design</title>
+    <title>Konverter Tabel Cerdas | by zidan.design</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* --- CSS untuk Desain dan Tampilan --- */
         :root {
             --primary-color: #3498db;
             --primary-hover: #2980b9;
@@ -22,7 +21,6 @@
             --text-light: #576574;
             --border-color: #dfe4ea;
         }
-
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--background-color);
@@ -35,7 +33,6 @@
             padding: 20px;
             box-sizing: border-box;
         }
-
         .container {
             background-color: var(--container-bg);
             padding: 40px;
@@ -47,31 +44,21 @@
             margin: auto 0;
             animation: fadeIn 0.5s ease-in-out;
         }
-
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
         h1 {
             color: var(--text-dark);
             margin-bottom: 10px;
             font-weight: 600;
         }
-
         p {
             color: var(--text-light);
             margin-bottom: 40px;
         }
-
-        .upload-area {
-            margin-bottom: 30px;
-        }
-
-        #fileInput {
-            display: none;
-        }
-
+        .upload-area { margin-bottom: 30px; }
+        #fileInput { display: none; }
         .upload-button {
             background-color: var(--primary-color);
             color: white;
@@ -86,13 +73,11 @@
             align-items: center;
             gap: 10px;
         }
-
         .upload-button:hover {
             background-color: var(--primary-hover);
             transform: translateY(-2px);
             box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
         }
-
         #tableContainer {
             overflow-x: auto;
             margin-top: 20px;
@@ -100,41 +85,38 @@
             border-radius: 8px;
             background-color: var(--container-bg);
         }
-        
         #tablePlaceholder {
             color: var(--text-light);
             padding: 60px 20px;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
         }
-
-        thead {
-            background-color: #f8f9fa;
-        }
-
+        thead { background-color: #f8f9fa; }
         th, td {
             border: 1px solid var(--border-color);
             padding: 14px 18px;
             text-align: left;
             white-space: nowrap;
         }
-
         th {
             font-weight: 600;
             color: var(--text-dark);
+            position: relative;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
         }
-
-        tbody tr:nth-child(even) {
-            background-color: #fcfcfc;
+        th:hover { background-color: #e9ecef; }
+        .sort-indicator {
+            font-size: 12px;
+            margin-left: 8px;
+            color: var(--primary-color);
+            display: inline-block;
+            width: 10px;
         }
-
-        tbody tr:hover {
-            background-color: #f1f5f8;
-        }
-
+        tbody tr:nth-child(even) { background-color: #fcfcfc; }
+        tbody tr:hover { background-color: #f1f5f8; }
         .copy-button {
             background-color: var(--secondary-color);
             color: white;
@@ -145,21 +127,15 @@
             cursor: pointer;
             font-size: 12px;
             font-weight: 600;
-            transition: background-color 0.2s ease;
-            opacity: 0; /* Sembunyikan tombol secara default */
+            opacity: 0;
             transform: scale(0.8);
             transition: all 0.2s ease;
         }
-        
         th:hover .copy-button {
-            opacity: 1; /* Tampilkan saat header di-hover */
+            opacity: 1;
             transform: scale(1);
         }
-
-        .copy-button:hover {
-            background-color: var(--secondary-hover);
-        }
-
+        .copy-button:hover { background-color: var(--secondary-hover); }
         footer {
             text-align: center;
             padding: 20px;
@@ -167,30 +143,24 @@
             width: 100%;
             margin-top: 40px;
         }
-
         footer a {
             color: var(--primary-color);
             text-decoration: none;
             font-weight: 600;
         }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
+        footer a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>✨ Konverter File ke Tabel Interaktif ✨</h1>
-        <p>Unggah file .csv atau .xls/.xlsx Anda. Data akan langsung diubah menjadi tabel yang rapi di bawah ini.</p>
+        <h1>✨ Konverter Tabel Cerdas dengan Sortir Akurat ✨</h1>
+        <p>Unggah file Anda, lalu klik pada judul kolom untuk mengurutkan data dari terbesar/terkecil secara akurat.</p>
         
         <div class="upload-area">
             <input type="file" id="fileInput" accept=".csv, .xls, .xlsx, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
             <label for="fileInput" class="upload-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
-                    <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z"/>
-                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2zm2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2z"/></svg>
                 Pilih File
             </label>
         </div>
@@ -208,54 +178,33 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     
     <script>
-        // --- JavaScript untuk Fungsionalitas ---
-
         document.getElementById('fileInput').addEventListener('change', handleFile);
 
         function handleFile(event) {
             const file = event.target.files[0];
-            if (!file) {
-                return;
-            }
+            if (!file) return;
 
-            const reader = new FileReader();
-            const fileName = file.name.toLowerCase();
-
-            // Menampilkan loader atau pesan loading (opsional)
             const tableContainer = document.getElementById('tableContainer');
             tableContainer.innerHTML = '<div id="tablePlaceholder">Memproses file, mohon tunggu...</div>';
 
+            const fileName = file.name.toLowerCase();
             if (fileName.endsWith('.csv')) {
-                // Proses file CSV menggunakan PapaParse
                 Papa.parse(file, {
                     header: true,
                     skipEmptyLines: true,
-                    complete: function(results) {
-                        if(results.data && results.data.length > 0) {
-                            generateTable(results.data);
-                        } else {
-                            handleError("File CSV kosong atau formatnya tidak valid.");
-                        }
-                    },
-                    error: function(err) {
-                        handleError("Gagal memproses file CSV: " + err.message);
-                    }
+                    complete: (results) => handleParsedData(results.data),
+                    error: (err) => handleError("Gagal memproses file CSV: " + err.message)
                 });
             } else if (fileName.endsWith('.xls') || fileName.endsWith('.xlsx')) {
-                // Proses file Excel menggunakan SheetJS/xlsx
-                reader.onload = function(e) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
                     try {
                         const data = new Uint8Array(e.target.result);
                         const workbook = XLSX.read(data, { type: 'array' });
                         const firstSheetName = workbook.SheetNames[0];
                         const worksheet = workbook.Sheets[firstSheetName];
                         const jsonData = XLSX.utils.sheet_to_json(worksheet);
-                        
-                        if(jsonData.length > 0) {
-                            generateTable(jsonData);
-                        } else {
-                            handleError("Sheet pertama pada file Excel kosong.");
-                        }
+                        handleParsedData(jsonData);
                     } catch (err) {
                         handleError("Gagal membaca file Excel. Pastikan file tidak rusak.");
                     }
@@ -266,32 +215,40 @@
             }
         }
 
+        function handleParsedData(data) {
+            if (data && data.length > 0) {
+                generateTable(data);
+            } else {
+                handleError("File tidak berisi data atau formatnya tidak valid.");
+            }
+        }
+
         function generateTable(data) {
             const tableContainer = document.getElementById('tableContainer');
-            tableContainer.innerHTML = ''; // Kosongkan kontainer
-
-            if (!data || data.length === 0) return;
-
+            tableContainer.innerHTML = '';
             const table = document.createElement('table');
             const thead = document.createElement('thead');
             const tbody = document.createElement('tbody');
             const headerRow = document.createElement('tr');
-
-            // Buat Header Tabel
             const headers = Object.keys(data[0]);
+            
             headers.forEach((headerText, index) => {
                 const th = document.createElement('th');
+                th.onclick = () => sortTable(index);
                 const textNode = document.createTextNode(headerText);
                 th.appendChild(textNode);
                 
+                const sortIndicator = document.createElement('span');
+                sortIndicator.className = 'sort-indicator';
+                th.appendChild(sortIndicator);
+
                 const copyBtn = document.createElement('button');
                 copyBtn.innerHTML = 'Salin';
                 copyBtn.className = 'copy-button';
                 copyBtn.onclick = (e) => {
-                    e.stopPropagation(); // Mencegah event lain terpicu
+                    e.stopPropagation();
                     copyColumn(index);
                 };
-                
                 th.appendChild(copyBtn);
                 headerRow.appendChild(th);
             });
@@ -299,12 +256,11 @@
             thead.appendChild(headerRow);
             table.appendChild(thead);
 
-            // Buat Isi Tabel (Baris Data)
             data.forEach(rowData => {
                 const row = document.createElement('tr');
                 headers.forEach(header => {
                     const cell = document.createElement('td');
-                    cell.textContent = rowData[header] !== undefined && rowData[header] !== null ? rowData[header] : ''; // Tampilkan string kosong jika data null/undefined
+                    cell.textContent = rowData[header] ?? '';
                     row.appendChild(cell);
                 });
                 tbody.appendChild(row);
@@ -313,10 +269,69 @@
             table.appendChild(tbody);
             tableContainer.appendChild(table);
         }
-        
+
+        /**
+         * Mengubah nilai teks (seperti '10RB+', '345,8RB') menjadi angka numerik untuk perbandingan.
+         * @param {string} value Teks dari sel tabel.
+         * @returns {number|string} Nilai numerik yang bersih, atau teks asli jika bukan format angka.
+         */
+        function normalizeValue(value) {
+            if (typeof value !== 'string') return value;
+            
+            let cleanValue = value.trim().toLowerCase();
+            
+            // Konversi "10RB+" menjadi 10000
+            if (cleanValue.endsWith('rb+')) {
+                return parseFloat(cleanValue.replace('rb+', '')) * 1000;
+            }
+            
+            // Konversi "345,8RB" menjadi 345800
+            if (cleanValue.endsWith('rb')) {
+                return parseFloat(cleanValue.replace('rb', '').replace(',', '.')) * 1000;
+            }
+
+            // Jika hanya angka biasa (mungkin dengan koma sebagai desimal)
+            const num = parseFloat(cleanValue.replace(',', '.'));
+            return isNaN(num) ? value : num; // Kembalikan angka jika valid, jika tidak kembalikan teks asli
+        }
+
+        function sortTable(columnIndex) {
+            const table = document.querySelector('#tableContainer table');
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.rows);
+            const headerCell = table.tHead.rows[0].cells[columnIndex];
+            
+            const currentDir = headerCell.dataset.sortDir || 'desc';
+            const newDir = currentDir === 'asc' ? 'desc' : 'asc';
+            headerCell.dataset.sortDir = newDir;
+            
+            table.querySelectorAll('th .sort-indicator').forEach(ind => ind.textContent = '');
+            headerCell.querySelector('.sort-indicator').textContent = newDir === 'asc' ? '▲' : '▼';
+            
+            // Cek tipe data kolom berdasarkan nilai yang sudah dinormalisasi
+            const sampleValue = rows.length > 0 ? normalizeValue(rows[0].cells[columnIndex].textContent) : '';
+            const isNumericColumn = typeof sampleValue === 'number';
+            
+            rows.sort((rowA, rowB) => {
+                const valA = normalizeValue(rowA.cells[columnIndex].textContent);
+                const valB = normalizeValue(rowB.cells[columnIndex].textContent);
+                let comparison = 0;
+
+                if (isNumericColumn) {
+                    comparison = (valA || 0) - (valB || 0);
+                } else {
+                    comparison = String(valA).localeCompare(String(valB), undefined, { sensitivity: 'base' });
+                }
+                
+                return comparison * (newDir === 'asc' ? 1 : -1);
+            });
+            
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        }
+
         function handleError(message) {
-            const tableContainer = document.getElementById('tableContainer');
-            tableContainer.innerHTML = `<div id="tablePlaceholder" style="color: #e74c3c;">${message}</div>`;
+            document.getElementById('tableContainer').innerHTML = `<div id="tablePlaceholder" style="color: #e74c3c;">${message}</div>`;
         }
 
         function copyColumn(columnIndex) {
@@ -324,21 +339,16 @@
             if (!table) return;
 
             const rows = table.querySelectorAll('tbody tr');
-            const columnData = Array.from(rows).map(row => {
-                const cell = row.querySelectorAll('td')[columnIndex];
-                return cell ? cell.textContent : '';
-            });
-            const columnText = columnData.join('\n');
-
-            navigator.clipboard.writeText(columnText.trim()).then(() => {
+            const columnData = Array.from(rows).map(row => row.cells[columnIndex]?.textContent || '');
+            
+            navigator.clipboard.writeText(columnData.join('\n').trim()).then(() => {
                 alert('Satu kolom berhasil disalin ke clipboard!');
             }).catch(err => {
                 console.error('Gagal menyalin kolom: ', err);
-                alert('Gagal menyalin. Cek konsol browser untuk info lebih lanjut.');
+                alert('Gagal menyalin. Cek konsol browser.');
             });
         }
 
-        // Set tahun saat ini untuk copyright
         document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
