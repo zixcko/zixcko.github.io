@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Konverter Tabel Cerdas | by zidan.design</title>
+    <title>Konverter Tabel Final | by zidan.design</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -154,7 +154,7 @@
 <body>
 
     <div class="container">
-        <h1>✨ Konverter Tabel Cerdas dengan Sortir Akurat ✨</h1>
+        <h1>✨ Konverter File ke Tabel Interaktif ✨</h1>
         <p>Unggah file Anda, lalu klik pada judul kolom untuk mengurutkan data dari terbesar/terkecil secara akurat.</p>
         
         <div class="upload-area">
@@ -271,7 +271,7 @@
         }
 
         /**
-         * Mengubah nilai teks (seperti '10RB+', '345,8RB') menjadi angka numerik untuk perbandingan.
+         * Mengubah nilai teks (seperti 'Rp9.750', '10RB+') menjadi angka numerik untuk perbandingan.
          * @param {string} value Teks dari sel tabel.
          * @returns {number|string} Nilai numerik yang bersih, atau teks asli jika bukan format angka.
          */
@@ -279,6 +279,12 @@
             if (typeof value !== 'string') return value;
             
             let cleanValue = value.trim().toLowerCase();
+
+            // *** BARU: Menangani format "Rp9.750" ***
+            if (cleanValue.startsWith('rp')) {
+                // Hapus "rp" dan semua titik, lalu ubah jadi angka
+                return parseFloat(cleanValue.replace('rp', '').replace(/\./g, ''));
+            }
             
             // Konversi "10RB+" menjadi 10000
             if (cleanValue.endsWith('rb+')) {
@@ -292,7 +298,7 @@
 
             // Jika hanya angka biasa (mungkin dengan koma sebagai desimal)
             const num = parseFloat(cleanValue.replace(',', '.'));
-            return isNaN(num) ? value : num; // Kembalikan angka jika valid, jika tidak kembalikan teks asli
+            return isNaN(num) ? value : num;
         }
 
         function sortTable(columnIndex) {
@@ -308,7 +314,6 @@
             table.querySelectorAll('th .sort-indicator').forEach(ind => ind.textContent = '');
             headerCell.querySelector('.sort-indicator').textContent = newDir === 'asc' ? '▲' : '▼';
             
-            // Cek tipe data kolom berdasarkan nilai yang sudah dinormalisasi
             const sampleValue = rows.length > 0 ? normalizeValue(rows[0].cells[columnIndex].textContent) : '';
             const isNumericColumn = typeof sampleValue === 'number';
             
