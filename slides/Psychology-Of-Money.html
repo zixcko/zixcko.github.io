@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Psychology of Money</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#FBFAF8;--ink:#2B2A28;--mute:#66625b;--blue:#0061FE;--on:#fff;--hl:#FFE58F;--line:#E3E0D9;--serif:'Fraunces',Georgia,'Times New Roman',serif;--sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1B1A18;--ink:#F1EEE8;--mute:#A9A49B;--blue:#6EA3FF;--on:#0B1220;--hl:rgba(255,229,143,.34);--line:#3A3731;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1B1A18;--ink:#F1EEE8;--mute:#A9A49B;--blue:#6EA3FF;--on:#0B1220;--hl:rgba(255,229,143,.34);--line:#3A3731;color-scheme:dark}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
+.deck{position:relative;height:100%}
+.bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--blue);transition:width .4s ease;z-index:10}
+.ctr{position:absolute;top:14px;right:20px;z-index:6;font:500 .85rem var(--sans);color:var(--mute);font-variant-numeric:tabular-nums}
+.slide{position:absolute;inset:0;overflow-y:auto;opacity:0;visibility:hidden;transition:opacity .5s ease,visibility 0s .5s;padding:64px 24px 120px}
+.slide.on{opacity:1;visibility:visible;transition:opacity .5s ease}
+.in{max-width:780px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;justify-content:center}
+.kick{margin:0 0 .6em;color:var(--blue);font-weight:600;font-size:.95rem}
+h1,h2{font-family:var(--serif);font-weight:600;line-height:1.08;letter-spacing:-.015em;margin:0 0 .6em}
+h2{font-size:clamp(30px,6vw,56px)}
+.cover h1{font-size:clamp(42px,10.5vw,92px)}
+.sub{font-family:var(--serif);font-size:clamp(1.2rem,2.6vw,1.6rem);line-height:1.45;color:var(--mute);margin:0 0 1.1em;max-width:30em}
+.au{margin:0 0 1.6em;font-weight:600}
+.ln{font-size:clamp(1.1rem,2.2vw,1.35rem);line-height:1.6;margin:0 0 .75em;max-width:34em}
+.stack{list-style:none;margin:.4em 0 1em;padding:0;max-width:34em}
+.stack li{font-family:var(--serif);font-size:clamp(1.15rem,2.4vw,1.45rem);line-height:1.4;padding:14px 0;border-top:1px solid var(--line)}
+.stack li:last-child{border-bottom:1px solid var(--line)}
+.stack.big li{font-size:clamp(1.3rem,3vw,1.8rem);padding:18px 0}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:.4em 0 1.1em;font-family:var(--serif);font-size:clamp(1.15rem,2.6vw,1.6rem);line-height:1.3}
+.flow i{font-style:normal;color:var(--blue);font-family:var(--sans);margin-right:10px}
+.em{font-family:var(--serif);font-weight:500;font-size:clamp(1.5rem,3.6vw,2.3rem);line-height:1.3;margin:.7em 0 0;max-width:24em}
+.eq{margin:1.2em 0 0;color:var(--mute);font-style:italic;max-width:30em}
+.qt{margin:0;padding-left:20px;border-left:3px solid var(--blue);font-family:var(--serif);font-size:clamp(1.1rem,2.3vw,1.4rem);line-height:1.55;max-width:30em}
+.sig{font-family:var(--serif);font-style:italic;font-size:1.3rem;margin:1.6em 0 .2em}
+.disc{margin:2.2em 0 0;color:var(--mute);font-size:.8rem;max-width:40em}
+mark{color:inherit;padding:0 .08em;background:linear-gradient(var(--hl),var(--hl)) 0 90%/0% 58% no-repeat}
+.slide.on mark{animation:sw .9s .8s ease forwards}
+@keyframes sw{to{background-size:100% 58%}}
+.rv{opacity:0}
+.slide.on .rv{animation:up .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*110ms + 120ms)}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.btn{margin-top:1.8em;align-self:flex-start;background:var(--blue);color:var(--on);border:0;border-radius:999px;padding:12px 28px;font-weight:600;transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,97,254,.3)}
+.nav{position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:center;align-items:center;gap:14px;padding:26px 16px 14px;background:linear-gradient(transparent,var(--bg) 55%)}
+.nb{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--bg);transition:transform .2s;font-size:1.1rem}
+.nb:hover:not(:disabled){transform:scale(1.08)}
+.nb:disabled{opacity:.35;cursor:default}
+.dots{display:flex;align-items:center}
+.dot{border:0;background:none;padding:10px 3px;line-height:0}
+.dot span{display:block;width:8px;height:8px;border-radius:99px;background:var(--line);transition:width .3s,background .3s}
+.dot[aria-current=true] span{width:26px;background:var(--blue)}
+@media (min-width:900px){.slide{padding:72px 48px 120px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1!important;transform:none!important}mark{background-size:100% 58%!important}}
+</style>
+</head>
+<body>
+<div class="bar" id="bar" role="presentation"></div>
+<main class="deck" id="deck" aria-label="Presentasi The Psychology of Money"></main>
+<script>
+const S=[
+{k:"Resume Buku",t:"The Psychology of Money",s:"Memahami cara manusia berpikir, bersikap, dan mengambil keputusan tentang uang.",au:"Morgan Housel",q:"Uang bukan hanya soal matematika. [[Cara kita berpikir tentang uang]] sering kali lebih menentukan daripada seberapa pintar kita menghitungnya.",cover:1},
+{k:"Pembuka",t:"Kenapa Buku Ini Penting?",s:"Kita semua belajar tentang uang dari [[pengalaman yang berbeda]].",l:["Ada yang tumbuh dalam kondisi sulit.","Ada yang pernah kehilangan banyak uang.","Ada yang terbiasa hidup hemat.","Ada juga yang menganggap uang sebagai simbol keberhasilan.","Karena itu, keputusan finansial seseorang [[tidak selalu rasional]]."],e:"Mengelola uang adalah tentang [[perilaku, kebiasaan, emosi, dan cara berpikir]]."},
+{k:"Mindset Finansial",t:"Disiplin > Sekadar Pintar",l:["Menjadi pintar secara finansial tidak otomatis membuat seseorang kaya.","Yang lebih penting adalah kemampuan untuk:"],st:["Mengendalikan keinginan","Menunda kesenangan","Konsisten menabung","Menghindari keputusan impulsif","Bertahan dalam jangka panjang"],e:"Kekayaan dibangun bukan hanya dari keputusan besar, tetapi dari [[kebiasaan kecil yang dilakukan berulang kali]]."},
+{k:"Keberuntungan dan Risiko",t:"Tidak Semua Hasil Bisa Dijelaskan oleh Keahlian",l:["Dalam dunia finansial, hasil yang baik tidak selalu berarti keputusan kita sempurna.","Begitu juga sebaliknya.","Keberuntungan dan risiko selalu memiliki peran.","Karena itu, jangan hanya melihat [[hasil akhir]]. Lihat juga [[proses dan kualitas keputusan]] yang dibuat."],e:"Belajar dari hasil, tetapi tetap [[rendah hati]] terhadap faktor yang berada di luar kendali kita."},
+{k:"Stop FOMO",t:"Jangan Mengukur Kekayaan dari Kehidupan Orang Lain",l:["Media sosial membuat kita melihat mobil, rumah, liburan, dan gaya hidup orang lain setiap hari.","Masalahnya? Kita hanya melihat [[apa yang mereka tampilkan]], bukan apa yang mereka korbankan untuk mendapatkannya.","Mengejar standar hidup orang lain bisa membuat kita:"],fl:["lebih banyak belanja","lebih banyak tekanan","[[lebih sedikit kebebasan]]"],e:"Kekayaan sejati sering kali adalah sesuatu yang [[tidak terlihat]]."},
+{k:"Power of Starting Small",t:"Waktu Adalah Aset yang Sangat Berharga",l:["Tidak perlu menunggu punya uang banyak untuk mulai membangun kebiasaan finansial.","Mulai dari yang kecil:"],fl:["Rp10.000","Rp50.000","Rp100.000","[[konsisten]]"],af:["Yang terpenting bukan seberapa besar langkah pertama."],e:"Yang penting adalah [[mulai]] dan memberi [[waktu]] kesempatan untuk bekerja.",z:"Konsistensi + waktu + pertumbuhan = fondasi kekayaan jangka panjang."},
+{k:"Financial Freedom",t:"Uang Membeli Sesuatu yang Lebih Berharga: Kebebasan",l:["Tujuan finansial bukan sekadar memiliki lebih banyak uang.","Salah satu manfaat terbesar dari kondisi finansial yang sehat adalah [[memiliki kendali atas waktu]]."],st:["Bisa berkata tidak pada pekerjaan yang tidak sesuai.","Bisa mengambil keputusan tanpa selalu tertekan oleh kebutuhan uang.","Bisa memilih bagaimana menggunakan waktu yang kita miliki."],e:"Kekayaan adalah kemampuan untuk memiliki [[lebih banyak pilihan]]."},
+{k:"Makna Kekayaan yang Sebenarnya",t:"Kaya ≠ Terlihat Kaya",l:["Barang mewah bisa terlihat.","Liburan bisa terlihat.","Rumah dan mobil bisa terlihat.","Tetapi [[uang yang tidak dibelanjakan tidak terlihat]].","Justru uang yang disimpan dan diinvestasikan dapat menjadi fondasi keamanan dan kebebasan di masa depan."],e:"Wealth is [[what you don't see]]."},
+{k:"Pelajaran Utama",t:"5 Pelajaran Utama",st:["Kelola [[perilaku]], bukan hanya angka.","Hormati peran [[keberuntungan dan risiko]].","Jangan jadikan hidup orang lain sebagai standar hidupmu.","[[Mulai kecil]] dan manfaatkan waktu.","Gunakan uang untuk membeli [[kebebasan]], bukan sekadar status."],big:1},
+{k:"Penutup",t:"Uang Adalah Permainan Jangka Panjang",l:["Kamu tidak harus menjadi orang paling pintar.","Kamu hanya perlu membangun [[kebiasaan yang bisa kamu pertahankan]] dalam jangka panjang."],st:["Berpikir jangka panjang.","Hindari keputusan impulsif.","Mulai dari kecil.","Dan biarkan [[waktu bekerja untukmu]]."],big:1,sg:"The Psychology of Money",sg2:"Mengubah cara kita memahami uang, kekayaan, dan kehidupan.",last:1}
+];
+const D="Ringkasan ini bersifat edukatif, bukan saran investasi, dan tidak menggantikan nasihat profesional. Semua hak atas buku ada pada Morgan Housel dan penerbitnya. Halaman ini adalah ringkasan independen dengan kata-kata sendiri.";
+const hl=s=>s.replace(/\[\[(.+?)\]\]/g,"<mark>$1</mark>");
+const pad=n=>String(n).padStart(2,"0"),N=S.length;
+const deck=document.getElementById("deck");
+let h='<div class="ctr" id="ct" aria-live="polite"></div>';
+S.forEach((s,n)=>{
+ let c=0;const a=()=>`style="--i:${c++}"`;
+ let b=`<section class="slide${s.cover?" cover":""}" aria-label="Slide ${n+1} dari ${N}"><div class="in"><p class="kick rv" ${a()}>${s.k}</p>`;
+ b+=n?`<h2 class="rv" ${a()}>${s.t}</h2>`:`<h1 class="rv" ${a()}>${s.t}</h1>`;
+ if(s.s)b+=`<p class="sub rv" ${a()}>${hl(s.s)}</p>`;
+ if(s.au)b+=`<p class="au rv" ${a()}>${s.au}</p>`;
+ if(s.q)b+=`<blockquote class="qt rv" ${a()}>${hl(s.q)}</blockquote>`;
+ (s.l||[]).forEach(x=>b+=`<p class="ln rv" ${a()}>${hl(x)}</p>`);
+ if(s.st)b+=`<ul class="stack${s.big?" big":""}">${s.st.map(x=>`<li class="rv" ${a()}>${hl(x)}</li>`).join("")}</ul>`;
+ if(s.fl)b+=`<div class="flow">${s.fl.map((x,j)=>`<span class="rv" ${a()}>${j?'<i aria-hidden="true">→</i>':""}${hl(x)}</span>`).join("")}</div>`;
+ (s.af||[]).forEach(x=>b+=`<p class="ln rv" ${a()}>${hl(x)}</p>`);
+ if(s.e)b+=`<p class="em rv" ${a()}>${hl(s.e)}</p>`;
+ if(s.z)b+=`<p class="eq rv" ${a()}>${s.z}</p>`;
+ if(s.sg)b+=`<p class="sig rv" ${a()}>${s.sg}</p><p class="ln rv" ${a()}><strong>${s.sg2}</strong></p>`;
+ if(s.cover)b+=`<button class="btn rv" ${a()} data-go="2" aria-label="Mulai membaca, ke slide 2">Mulai</button>`;
+ if(s.last)b+=`<button class="btn rv" ${a()} data-go="1">Ulangi dari awal</button><p class="disc rv" ${a()}>${D}</p>`;
+ h+=b+"</div></section>";
+});
+h+=`<nav class="nav" aria-label="Navigasi slide"><button class="nb" id="pv" aria-label="Slide sebelumnya">←</button><div class="dots">${S.map((_,n)=>`<button class="dot" data-go="${n+1}" aria-label="Ke slide ${n+1}"><span></span></button>`).join("")}</div><button class="nb" id="nx" aria-label="Slide berikutnya">→</button></nav>`;
+deck.innerHTML=h;
+const sl=[...deck.querySelectorAll(".slide")],dots=[...deck.querySelectorAll(".dot")],ct=document.getElementById("ct"),bar=document.getElementById("bar"),pv=document.getElementById("pv"),nx=document.getElementById("nx");
+let cur=-1;
+function go(n,sync=true){
+ n=Math.max(1,Math.min(N,n|0||1));if(n-1===cur)return;cur=n-1;
+ sl.forEach((s,i)=>{s.classList.toggle("on",i===cur);s.inert=i!==cur;s.setAttribute("aria-hidden",i!==cur)});
+ sl[cur].scrollTop=0;
+ dots.forEach((d,i)=>d.setAttribute("aria-current",i===cur));
+ ct.textContent=pad(n)+" / "+pad(N);
+ bar.style.width=(n/N*100)+"%";
+ pv.disabled=n===1;nx.disabled=n===N;
+ if(sync){try{history.replaceState(null,"","#"+n)}catch(e){}}
+}
+const hash=()=>parseInt((location.hash||"").slice(1),10)||1;
+go(hash(),false);
+addEventListener("hashchange",()=>go(hash(),false));
+document.body.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)go(+b.dataset.go)});
+pv.onclick=()=>go(cur);nx.onclick=()=>go(cur+2);
+addEventListener("keydown",e=>{
+ const k=e.key;
+ if(k==="ArrowRight"||k==="PageDown"){e.preventDefault();go(cur+2)}
+ else if(k==="ArrowLeft"||k==="PageUp"){e.preventDefault();go(cur)}
+ else if(k==="Home"){e.preventDefault();go(1)}
+ else if(k==="End"){e.preventDefault();go(N)}
+});
+let sx=0,sy=0;
+addEventListener("touchstart",e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)go(dx<0?cur+2:cur)},{passive:true});
+</script>
+</body>
+</html>
