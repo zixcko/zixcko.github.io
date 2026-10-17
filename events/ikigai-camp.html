@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diskusi Buku & Ngecamp IKIGAI - Pijar Park Kudus</title>
+<meta name="description" content="Diskusi buku IKIGAI dan ngecamp bareng, 7–8 November 2026 di Pijar Park Kudus. Daftar sekarang.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tema ---------- */
+  :root, [data-theme="dark"] {
+    --bg: #0d1412;
+    --bg-2: #142019;
+    --card: #1a2a22;
+    --line: rgba(232, 201, 127, 0.22);
+    --text: #f3efe6;
+    --muted: #b9c2b8;
+    --accent: #e8c97f;
+    --accent-ink: #1b1608;
+    --accent-text: #e8c97f;
+    --accent-2: #f5dfa3;
+    --teal: #5fb8b0;
+    --input: #0f1a15;
+    --input-line: rgba(255, 255, 255, 0.14);
+    --hero: radial-gradient(ellipse at 80% 15%, rgba(232,201,127,.16), transparent 55%),
+            radial-gradient(ellipse at 5% 95%, rgba(95,184,176,.14), transparent 55%),
+            linear-gradient(180deg, #0d1412 0%, #132219 100%);
+    --ok-bg: rgba(37,211,102,.12); --ok-line: rgba(37,211,102,.4); --ok-text: #b8f5cf;
+    --err-bg: rgba(255,138,128,.1); --err-line: rgba(255,138,128,.4); --err-text: #ffc1ba;
+    --err: #ff8a80;
+    --wa: #25d366;
+  }
+  [data-theme="light"] {
+    --bg: #fbf8f1;
+    --bg-2: #f3eee2;
+    --card: #ffffff;
+    --line: rgba(138, 98, 20, 0.2);
+    --text: #1d2420;
+    --muted: #56605a;
+    --accent: #b8862b;
+    --accent-ink: #ffffff;
+    --accent-text: #8a6212;
+    --accent-2: #6b4a0c;
+    --teal: #1f7a72;
+    --input: #fffdf8;
+    --input-line: rgba(29, 36, 32, 0.18);
+    --hero: radial-gradient(ellipse at 80% 15%, rgba(232,201,127,.35), transparent 55%),
+            radial-gradient(ellipse at 5% 95%, rgba(95,184,176,.18), transparent 55%),
+            linear-gradient(180deg, #fbf8f1 0%, #f1ead8 100%);
+    --ok-bg: rgba(37,211,102,.12); --ok-line: rgba(18,140,70,.35); --ok-text: #0f6b36;
+    --err-bg: rgba(220,60,50,.08); --err-line: rgba(220,60,50,.35); --err-text: #9b2418;
+    --err: #c0392b;
+    --wa: #25d366;
+  }
+
+  /* ---------- Dasar ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 1rem; }
+  body {
+    font-family: "Inter", system-ui, sans-serif;
+    background: var(--bg); color: var(--text);
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+    transition: background .3s ease, color .3s ease;
+  }
+  a { color: inherit; }
+  svg { display: block; flex: none; }
+  .wrap { width: min(1080px, 100% - 2.5rem); margin-inline: auto; }
+  h1, h2, h3 { font-family: "Cormorant Garamond", Georgia, serif; font-weight: 700; line-height: 1.15; }
+  .hl { color: var(--accent-text); }
+
+  .eyebrow {
+    display: block; font-size: .75rem; font-weight: 600; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--accent-text); margin-bottom: .6rem;
+  }
+  .section { padding: 4.5rem 0; }
+  .section.alt { background: var(--bg-2); }
+  .section-head { margin-bottom: 2.25rem; }
+  .section-title { font-size: clamp(1.9rem, 3.6vw, 2.5rem); }
+  .section-sub { color: var(--muted); margin-top: .5rem; max-width: 60ch; }
+
+  /* ---------- Tombol ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+    min-height: 48px; padding: .75rem 1.5rem; border-radius: 999px;
+    font: 600 .95rem/1 "Inter", sans-serif; text-decoration: none; white-space: nowrap;
+    border: 1.5px solid transparent; cursor: pointer;
+    transition: transform .15s ease, filter .2s ease, background .2s ease;
+  }
+  .btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+  .btn:focus-visible, .theme-btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .btn-accent { background: var(--accent); color: var(--accent-ink); }
+  .btn-outline { border-color: var(--accent); color: var(--accent-text); background: transparent; }
+  .btn-wa { background: var(--wa); color: #05240f; }
+  .btn[disabled] { opacity: .6; cursor: wait; transform: none; }
+  .btn-block { width: 100%; }
+
+  /* ---------- Toggle tema ---------- */
+  .theme-btn {
+    position: fixed; top: 16px; right: 16px; z-index: 60;
+    width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+    background: var(--card); color: var(--accent-text); border: 1px solid var(--line);
+    display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  }
+  .theme-btn .i-sun { display: none; }
+  [data-theme="light"] .theme-btn .i-sun { display: block; }
+  [data-theme="light"] .theme-btn .i-moon { display: none; }
+
+  /* ---------- Hero ---------- */
+  .hero { background: var(--hero); padding: 5.5rem 0 4.5rem; }
+  .hero-grid { display: grid; gap: 3rem; align-items: center; }
+  @media (min-width: 880px) { .hero-grid { grid-template-columns: 1.2fr 1fr; gap: 4rem; } }
+  .hero h1 { font-size: clamp(3.4rem, 9vw, 5.6rem); letter-spacing: .03em; line-height: 1; }
+  .book-title { font-family: "Cormorant Garamond", serif; font-style: italic; font-size: clamp(1.15rem, 2.4vw, 1.4rem); color: var(--accent-2); margin-top: .75rem; }
+  .author { color: var(--muted); font-size: .95rem; margin-top: .25rem; }
+  .quote {
+    border-left: 3px solid var(--accent); padding: .2rem 0 .2rem 1.1rem; margin: 1.75rem 0 2rem;
+    font-family: "Cormorant Garamond", serif; font-size: clamp(1.2rem, 2.2vw, 1.4rem); font-style: italic;
+  }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: .75rem; }
+
+  .book-cover {
+    width: min(300px, 78%); aspect-ratio: 2 / 3; margin-inline: auto;
+    border-radius: 6px 14px 14px 6px; transform: rotate(-2deg);
+    background: linear-gradient(160deg, #9fd8ec 0%, #5fb8d6 60%, #3f9cc0 100%);
+    box-shadow: 0 30px 60px rgba(0,0,0,.35), inset 8px 0 12px -6px rgba(0,0,0,.25);
+    padding: 1.5rem 1.3rem; display: flex; flex-direction: column; justify-content: space-between;
+    color: #0b2230; text-align: center;
+  }
+  .book-cover .badge { background: #c62828; color: #fff; font-size: .6rem; letter-spacing: .08em; padding: .3rem .5rem; align-self: flex-start; border-radius: 3px; font-weight: 700; }
+  .book-cover h3 { font-size: 2.5rem; letter-spacing: .12em; }
+  .book-cover .jp { font-size: 1.05rem; margin-top: .15rem; }
+  .book-cover .sub { font-size: .78rem; margin-top: .5rem; }
+  .book-cover .by { font-size: .58rem; letter-spacing: .08em; }
+
+  /* ---------- Kartu info ---------- */
+  .info-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .info-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .info-grid { grid-template-columns: repeat(4, 1fr); } }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1.4rem;
+  }
+  .info-card { display: flex; gap: 1rem; align-items: center; }
+  .icon {
+    width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--accent);
+    color: var(--accent-text); display: grid; place-items: center;
+  }
+  .info-card .label { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .info-card .value { font-family: "Cormorant Garamond", serif; font-size: 1.4rem; font-weight: 700; line-height: 1.2; color: var(--accent-text); }
+  .info-card .note { font-size: .85rem; color: var(--muted); margin-top: .2rem; }
+
+  /* ---------- Pembahasan ---------- */
+  .topics { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .topics { grid-template-columns: 1fr 1fr; } }
+  .topic { display: flex; gap: 1.1rem; }
+  .topic-num { font-family: "Cormorant Garamond", serif; font-size: 2.4rem; font-weight: 700; color: var(--accent-text); line-height: 1; min-width: 2ch; }
+  .topic h3 { font-size: 1.3rem; margin-bottom: .3rem; }
+  .topic p { color: var(--muted); font-size: .95rem; }
+  .topic em { color: var(--accent-text); font-style: italic; }
+  .topic.wide { grid-column: 1 / -1; }
+
+  /* ---------- Ngecamp ---------- */
+  .split { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .split { grid-template-columns: 1fr 1fr; } }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 1.6rem; border-top: 3px solid var(--teal); }
+  .panel h3 { font-size: 1.5rem; margin-bottom: .6rem; }
+  .panel ul { list-style: none; display: grid; gap: .5rem; }
+  .panel li { color: var(--muted); padding-left: 1.2rem; position: relative; font-size: .95rem; }
+  .panel li::before { content: ""; position: absolute; left: 0; top: .55rem; width: 6px; height: 6px; border-radius: 50%; background: var(--teal); }
+
+  /* ---------- Tiket ---------- */
+  .tickets { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .tickets { grid-template-columns: 1fr 1fr; } }
+  .ticket { display: flex; flex-direction: column; gap: .75rem; padding: 1.8rem; position: relative; }
+  .ticket.highlight { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+  .ticket .tag {
+    position: absolute; top: -12px; right: 1.2rem; background: var(--accent); color: var(--accent-ink);
+    font-size: .7rem; font-weight: 700; padding: .3rem .75rem; border-radius: 999px; letter-spacing: .06em;
+  }
+  .ticket h3 { font-size: 1.75rem; }
+  .price { font-family: "Cormorant Garamond", serif; font-size: 2.1rem; font-weight: 700; color: var(--accent-text); }
+  .price small { font-family: "Inter", sans-serif; font-size: .9rem; color: var(--muted); font-weight: 400; }
+  .ticket ul { list-style: none; display: grid; gap: .4rem; color: var(--muted); font-size: .95rem; }
+  .ticket li::before { content: "✓ "; color: var(--teal); font-weight: 700; }
+  .ticket .btn { margin-top: auto; }
+
+  /* ---------- Form ---------- */
+  .form-card { padding: clamp(1.4rem, 4vw, 2.5rem); border-radius: 22px; }
+  form { display: grid; gap: 1.1rem 1.25rem; grid-template-columns: 1fr; }
+  @media (min-width: 680px) { form { grid-template-columns: 1fr 1fr; } }
+  .field { display: flex; flex-direction: column; gap: .4rem; }
+  .full { grid-column: 1 / -1; }
+  .field > label, .group-label { font-size: .88rem; font-weight: 600; color: var(--accent-text); }
+  .req { color: var(--err); }
+  .field input, .field select, .field textarea {
+    font: inherit; font-size: .95rem; color: var(--text); background: var(--input);
+    border: 1px solid var(--input-line); border-radius: 12px; min-height: 48px;
+    padding: .75rem .95rem; width: 100%; transition: border-color .2s, box-shadow .2s;
+  }
+  .field textarea { min-height: 96px; resize: vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); outline: none; }
+  .field select option { background: var(--card); color: var(--text); }
+  .hint { font-size: .8rem; color: var(--muted); }
+  .field.invalid input, .field.invalid select { border-color: var(--err); }
+  .radio-group { display: grid; gap: .75rem; grid-template-columns: 1fr; }
+  @media (min-width: 480px) { .radio-group { grid-template-columns: 1fr 1fr; } }
+  .radio-card {
+    display: flex; gap: .75rem; align-items: flex-start; cursor: pointer; min-height: 48px;
+    background: var(--input); border: 1px solid var(--input-line); border-radius: 12px; padding: .85rem 1rem;
+    transition: border-color .2s, background .2s;
+  }
+  .radio-card:has(input:checked) { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--input)); }
+  .radio-card input[type="radio"] { flex: none; width: 18px; height: 18px; min-height: 0; margin: .2rem 0 0; padding: 0; border: 0; accent-color: var(--accent); }
+  .radio-card > div { min-width: 0; }
+  .radio-card strong { display: block; font-size: .95rem; }
+  .radio-card small { color: var(--muted); font-size: .83rem; }
+  .actions { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 1rem; align-items: stretch; }
+  @media (min-width: 680px) { .actions { flex-direction: row; align-items: center; justify-content: space-between; } }
+  .actions .fine { font-size: .85rem; color: var(--muted); }
+  .status { grid-column: 1 / -1; font-size: .95rem; display: none; padding: .9rem 1rem; border-radius: 12px; border: 1px solid; }
+  .status.ok { display: block; background: var(--ok-bg); border-color: var(--ok-line); color: var(--ok-text); }
+  .status.err { display: block; background: var(--err-bg); border-color: var(--err-line); color: var(--err-text); }
+  .status .btn { margin-top: .6rem; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .ask { margin-top: 2rem; display: flex; flex-direction: column; align-items: center; gap: .75rem; text-align: center; }
+  .ask p { color: var(--muted); }
+
+  /* ---------- Footer ---------- */
+  footer { padding: 2.75rem 0; border-top: 1px solid var(--line); color: var(--muted); font-size: .9rem; text-align: center; }
+  footer .slogan { font-family: "Cormorant Garamond", serif; font-size: 1.4rem; font-weight: 700; color: var(--accent-text); margin-bottom: .5rem; }
+  footer a { color: var(--accent-text); }
+
+  /* ---------- WA mengambang ---------- */
+  .wa-float {
+    position: fixed; right: 18px; bottom: 18px; z-index: 50; min-height: 52px;
+    background: var(--wa); color: #05240f; padding: .75rem 1.1rem; border-radius: 999px;
+    font-weight: 700; text-decoration: none; box-shadow: 0 10px 28px rgba(0,0,0,.3);
+    display: inline-flex; align-items: center; gap: .5rem;
+  }
+  .wa-float:hover { filter: brightness(1.05); }
+
+  /* ---------- Animasi ---------- */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+
+  @media (max-width: 480px) {
+    .section { padding: 3.5rem 0; }
+    .wa-float .txt { display: none; }
+    .wa-float { padding: .75rem; }
+    .hero { padding-top: 5rem; }
+  }
+</style>
+</head>
+<body>
+
+<button class="theme-btn" id="themeToggle" type="button" aria-label="Ganti tema terang/gelap" title="Ganti tema">
+  <svg class="i-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  <svg class="i-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+</button>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Diskusi Buku &amp; Ngecamp Bareng</span>
+      <h1>IKIGAI</h1>
+      <p class="book-title">The Japanese Secret to a Long and Happy Life</p>
+      <p class="author">Karya Héctor García &amp; Francesc Miralles</p>
+      <p class="quote">"Menemukan alasan untuk bangun setiap pagi, menikmati hal-hal sederhana, dan menjalani hidup yang lebih bermakna."</p>
+      <div class="hero-cta">
+        <a href="#daftar" class="btn btn-accent">Daftar Sekarang</a>
+        <a href="#pembahasan" class="btn btn-outline">Lihat Pembahasan</a>
+      </div>
+    </div>
+
+    <div class="book-cover" role="img" aria-label="Sampul buku IKIGAI">
+      <span class="badge">THE INTERNATIONAL BESTSELLER</span>
+      <div>
+        <h3>IKIGAI</h3>
+        <div class="jp">生き甲斐</div>
+        <div class="sub">Rahasia Hidup Bahagia dan Panjang Umur Orang Jepang</div>
+      </div>
+      <div class="by">HÉCTOR GARCÍA DAN FRANCESC MIRALLES</div>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="info">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Informasi Acara</span>
+      <h2 class="section-title">Detail <span class="hl">Acara</span></h2>
+      <p class="section-sub">Satu akhir pekan untuk membaca bersama, ngobrol, dan ngecamp di alam.</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="card info-card reveal">
+        <div class="icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+        </div>
+        <div>
+          <div class="label">Tanggal</div>
+          <div class="value">7–8 November 2026</div>
+        </div>
+      </div>
+
+      <div class="card info-card reveal">
+        <div class="icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        </div>
+        <div>
+          <div class="label">Waktu Ke Lokasi</div>
+          <div class="value">7 Nov, 16.00 WIB</div>
+        </div>
+      </div>
+
+      <div class="card info-card reveal">
+        <div class="icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        </div>
+        <div>
+          <div class="label">Tempat</div>
+          <div class="value">Pijar Park Kudus</div>
+        </div>
+      </div>
+
+      <div class="card info-card reveal">
+        <div class="icon" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a3 3 0 0 0 0 6v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a3 3 0 0 0 0-6z"/></svg>
+        </div>
+        <div>
+          <div class="label">HTM</div>
+          <div class="value">Admin Rp25.000</div>
+          <div class="note">atau bayar di lokasi (OTS)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="pembahasan">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Pembahasan</span>
+      <h2 class="section-title">Yang Akan Kita <span class="hl">Bahas</span></h2>
+      <p class="section-sub">Lima topik utama dari buku IKIGAI yang kita kupas bersama.</p>
+    </div>
+
+    <div class="topics">
+      <article class="card topic reveal">
+        <div class="topic-num">01</div>
+        <div>
+          <h3>Kekuatan Kebiasaan Kecil</h3>
+          <p>Mengapa kebiasaan kecil dan konsisten sehari-hari bisa menghasilkan kehidupan yang lebih bermakna daripada ambisi besar yang tidak stabil.</p>
+        </div>
+      </article>
+
+      <article class="card topic reveal">
+        <div class="topic-num">02</div>
+        <div>
+          <h3>Resiliensi &amp; Antifragility</h3>
+          <p>Cara menyikapi stres dan perubahan hidup dengan membangun resiliensi (<em>antifragility</em>).</p>
+        </div>
+      </article>
+
+      <article class="card topic reveal">
+        <div class="topic-num">03</div>
+        <div>
+          <h3>Berhenti Berlebihan</h3>
+          <p>Menghentikan kebiasaan berlebihan (<em>hara hachi bu</em>) yang merusak kesehatan fisik dan mental.</p>
+        </div>
+      </article>
+
+      <article class="card topic reveal">
+        <div class="topic-num">04</div>
+        <div>
+          <h3>Menemukan <em>Flow State</em></h3>
+          <p>Mengapa menemukan alur ketenangan (<em>flow state</em>) dalam aktivitas kecil dari sekarang sangat menentukan kualitas hidup.</p>
+        </div>
+      </article>
+
+      <article class="card topic wide reveal">
+        <div class="topic-num">05</div>
+        <div>
+          <h3>Alasan untuk Bangun di Pagi Hari</h3>
+          <p>Memiliki alasan untuk bangun di pagi hari (<em>ikigai</em>) serta kebebasan menikmati hidup yang seimbang.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="ngecamp">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Catatan Ngecamp</span>
+      <h2 class="section-title">Persiapan <span class="hl">Ngecamp</span></h2>
+      <p class="section-sub">Diskusinya sambil ngecamp, jadi siapkan perlengkapan berikut.</p>
+    </div>
+
+    <div class="split">
+      <div class="panel reveal">
+        <h3>Tenda</h3>
+        <ul>
+          <li>Bisa membawa tenda sendiri.</li>
+          <li>Belum punya tenda? Minta rekomendasi tempat sewa tenda melalui panitia.</li>
+        </ul>
+      </div>
+      <div class="panel reveal">
+        <h3>Makanan</h3>
+        <ul>
+          <li>Setiap peserta membawa makanan masing-masing.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="tiket">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">HTM &amp; Pembayaran</span>
+      <h2 class="section-title">Pilih <span class="hl">Tiket</span></h2>
+      <p class="section-sub">Dua pilihan pembayaran. Pilih yang paling sesuai untuk kamu.</p>
+    </div>
+
+    <div class="tickets">
+      <div class="card ticket highlight reveal">
+        <span class="tag">Direkomendasikan</span>
+        <h3>Tiket Admin</h3>
+        <div class="price">TF Rp25.000 <small>/ orang</small></div>
+        <ul>
+          <li>Pembayaran lewat transfer ke admin</li>
+          <li>Tiket dikonfirmasi via WhatsApp</li>
+          <li>Tidak perlu antre pembayaran di lokasi</li>
+        </ul>
+        <a href="#daftar" class="btn btn-accent" data-pick="Admin (TF Rp25.000)">Pilih Tiket Admin</a>
+      </div>
+
+      <div class="card ticket reveal">
+        <h3>Tiket OTS</h3>
+        <div class="price">Bayar di Lokasi</div>
+        <ul>
+          <li>Pembayaran langsung saat tiba di Pijar Park Kudus</li>
+          <li>Cocok untuk yang belum memastikan kehadiran</li>
+          <li>Tetap wajib mendaftar lewat form di bawah</li>
+        </ul>
+        <a href="#daftar" class="btn btn-outline" data-pick="OTS (Bayar di Lokasi)">Pilih Tiket OTS</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="daftar">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Pendaftaran</span>
+      <h2 class="section-title">Daftar <span class="hl">Sekarang</span></h2>
+      <p class="section-sub">Isi data di bawah. Data kamu akan tersimpan otomatis di database pendaftar kami.</p>
+    </div>
+
+    <div class="card form-card reveal">
+      <form id="regForm" novalidate>
+        <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="field" data-field>
+          <label for="nama">Nama Lengkap <span class="req">*</span></label>
+          <input id="nama" name="nama" type="text" placeholder="Nama sesuai KTP" autocomplete="name" required>
+        </div>
+
+        <div class="field" data-field>
+          <label for="wa">Nomor WhatsApp <span class="req">*</span></label>
+          <input id="wa" name="wa" type="tel" placeholder="08xxxxxxxxxx" inputmode="tel" autocomplete="tel" required>
+          <span class="hint">Untuk konfirmasi tiket dan info acara.</span>
+        </div>
+
+        <div class="field" data-field>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="nama@email.com" autocomplete="email">
+        </div>
+
+        <div class="field" data-field>
+          <label for="kota">Kota Asal <span class="req">*</span></label>
+          <input id="kota" name="kota" type="text" placeholder="Contoh: Kudus" required>
+        </div>
+
+        <fieldset class="field full" data-field style="border:0;">
+          <legend class="group-label" style="margin-bottom:.4rem;">Jenis Tiket <span class="req">*</span></legend>
+          <div class="radio-group">
+            <label class="radio-card">
+              <input type="radio" name="tiket" value="Admin (TF Rp25.000)">
+              <div><strong>Tiket Admin</strong><small>Transfer Rp25.000 ke admin</small></div>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="tiket" value="OTS (Bayar di Lokasi)">
+              <div><strong>Tiket OTS</strong><small>Bayar langsung di lokasi</small></div>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="field" data-field>
+          <label for="jumlah">Jumlah Peserta <span class="req">*</span></label>
+          <select id="jumlah" name="jumlah" required>
+            <option value="1">1 orang</option>
+            <option value="2">2 orang</option>
+            <option value="3">3 orang</option>
+            <option value="4">4 orang</option>
+            <option value="5">5 orang atau lebih</option>
+          </select>
+        </div>
+
+        <div class="field" data-field>
+          <label for="tenda">Perlengkapan Tenda <span class="req">*</span></label>
+          <select id="tenda" name="tenda" required>
+            <option value="">Pilih salah satu</option>
+            <option value="Bawa tenda sendiri">Bawa tenda sendiri</option>
+            <option value="Minta rekomendasi sewa tenda">Minta rekomendasi sewa tenda</option>
+            <option value="Tidak ikut menginap">Tidak ikut menginap</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="catatan">Catatan (opsional)</label>
+          <textarea id="catatan" name="catatan" placeholder="Pertanyaan atau kebutuhan khusus, misalnya alergi makanan"></textarea>
+        </div>
+
+        <div class="status" id="status" role="status" aria-live="polite"></div>
+
+        <div class="actions">
+          <p class="fine">Dengan mendaftar, kamu setuju data dipakai untuk keperluan acara ini.</p>
+          <button type="submit" class="btn btn-accent" id="submitBtn">Kirim Pendaftaran</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="ask reveal">
+      <p>Ada pertanyaan? Langsung chat admin kami.</p>
+      <a class="btn btn-wa" href="https://wa.me/6281809206818?text=Halo%20Aditya%2C%20saya%20mau%20tanya%20tentang%20Diskusi%20Buku%20%26%20Ngecamp%20IKIGAI" target="_blank" rel="noopener">
+        Tanya via WhatsApp (Aditya)
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="slogan">Baca Bareng • Ngobrol • Ngecamp • Temukan Ikigai-mu</div>
+    <p>Informasi &amp; pendaftaran: <a href="https://wa.me/6281809206818" target="_blank" rel="noopener">0818 0920 6818 (Aditya)</a></p>
+    <p>Terbuka untuk umum · Pijar Park Kudus · 7–8 November 2026</p>
+  </div>
+</footer>
+
+<a class="wa-float" href="https://wa.me/6281809206818?text=Halo%20Aditya%2C%20saya%20mau%20tanya%20tentang%20IKIGAI" target="_blank" rel="noopener" aria-label="Tanya via WhatsApp">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11 11 0 0 0 3.2 17.3L2 22l4.8-1.2A11 11 0 1 0 20.5 3.5zM12 20.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-2.8.7.8-2.7-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4c2.2.9 2.6.7 3.1.7a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .1-1.2c-.1-.1-.2-.2-.4-.3z"/></svg>
+  <span class="txt">Tanya WA</span>
+</a>
+
+<script>
+  /* Ganti dengan URL Web App Google Apps Script yang terhubung ke Google Sheets */
+  const SHEET_ENDPOINT = "GANTI_DENGAN_URL_APPS_SCRIPT";
+  const WA_NUMBER = "6281809206818";
+
+  /* ---------- Tema terang / gelap ---------- */
+  const root = document.documentElement;
+  const media = window.matchMedia("(prefers-color-scheme: light)");
+  function readSaved() { try { return localStorage.getItem("ikigai-theme"); } catch (e) { return null; } }
+  function saveTheme(t) { try { localStorage.setItem("ikigai-theme", t); } catch (e) {} }
+  function applyTheme(t) { root.setAttribute("data-theme", t); }
+
+  applyTheme(readSaved() || (media.matches ? "light" : "dark"));
+
+  document.getElementById("themeToggle").addEventListener("click", () => {
+    const next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+    applyTheme(next);
+    saveTheme(next);
+  });
+
+  /* ---------- Animasi muncul saat scroll ---------- */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  /* ---------- Pilih tiket dari kartu ---------- */
+  document.querySelectorAll("[data-pick]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const radio = document.querySelector(`input[name="tiket"][value="${btn.dataset.pick}"]`);
+      if (radio) radio.checked = true;
+    });
+  });
+
+  /* ---------- Form pendaftaran ---------- */
+  const form = document.getElementById("regForm");
+  const statusEl = document.getElementById("status");
+  const submitBtn = document.getElementById("submitBtn");
+
+  function showStatus(type, msg) {
+    statusEl.className = "status " + type;
+    statusEl.textContent = msg;
+  }
+
+  function validate() {
+    let ok = true;
+    form.querySelectorAll("[data-field]").forEach((f) => f.classList.remove("invalid"));
+    const waOk = /^(\+?62|0)8[0-9]{7,11}$/.test(form.wa.value.trim().replace(/[\s-]/g, ""));
+
+    if (!form.nama.value.trim()) { ok = false; form.nama.closest("[data-field]").classList.add("invalid"); }
+    if (!waOk) { ok = false; form.wa.closest("[data-field]").classList.add("invalid"); }
+    if (!form.kota.value.trim()) { ok = false; form.kota.closest("[data-field]").classList.add("invalid"); }
+    if (!form.tiket.value) { ok = false; form.tiket[0].closest("[data-field]").classList.add("invalid"); }
+    if (!form.tenda.value) { ok = false; form.tenda.closest("[data-field]").classList.add("invalid"); }
+    return ok;
+  }
+
+  form.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    statusEl.className = "status";
+    statusEl.textContent = "";
+
+    if (form.website.value) return; // honeypot anti-bot
+
+    if (!validate()) {
+      showStatus("err", "Mohon lengkapi data yang wajib diisi dengan benar. Nomor WhatsApp harus valid.");
+      return;
+    }
+
+    if (SHEET_ENDPOINT.startsWith("GANTI")) {
+      showStatus("err", "Form belum terhubung ke database. Silakan daftar lewat WhatsApp dulu.");
+      return;
+    }
+
+    const data = {
+      nama: form.nama.value.trim(),
+      wa: form.wa.value.trim(),
+      email: form.email.value.trim(),
+      kota: form.kota.value.trim(),
+      tiket: form.tiket.value,
+      jumlah: form.jumlah.value,
+      tenda: form.tenda.value,
+      catatan: form.catatan.value.trim(),
+      sumber: location.href
+    };
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Mengirim...";
+
+    try {
+      // mode no-cors: data tetap terkirim ke Apps Script walau respons tidak bisa dibaca browser
+      await fetch(SHEET_ENDPOINT, { method: "POST", mode: "no-cors", body: new URLSearchParams(data) });
+
+      const pesan = encodeURIComponent(
+        `Halo Aditya, saya sudah mendaftar IKIGAI.\nNama: ${data.nama}\nJenis tiket: ${data.tiket}\nJumlah: ${data.jumlah}`
+      );
+      const waLink = `https://wa.me/${WA_NUMBER}?text=${pesan}`;
+
+      form.reset();
+      showStatus("ok", "Pendaftaran berhasil terkirim. Terima kasih! Konfirmasi tiket akan dikirim via WhatsApp.");
+
+      const info = document.createElement("a");
+      info.className = "btn btn-wa";
+      info.href = waLink;
+      info.target = "_blank";
+      info.rel = "noopener";
+      info.textContent = "Konfirmasi via WhatsApp";
+      statusEl.appendChild(info);
+    } catch (err) {
+      showStatus("err", "Gagal mengirim pendaftaran. Coba lagi atau daftar lewat WhatsApp.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Kirim Pendaftaran";
+    }
+  });
+</script>
+</body>
+</html>
