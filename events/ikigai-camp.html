@@ -100,17 +100,20 @@
 
   /* ---------- Toggle tema ---------- */
   .theme-btn {
-    position: fixed; top: 16px; right: 16px; z-index: 60;
-    width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
-    background: var(--card); color: var(--accent-text); border: 1px solid var(--line);
-    display: grid; place-items: center; box-shadow: 0 6px 18px rgba(0,0,0,.18);
+    position: fixed; right: 18px; bottom: 82px; z-index: 60;
+    width: 48px; height: 48px; border-radius: 50%; cursor: pointer;
+    background: var(--card); color: var(--accent-text); border: 1.5px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 10px 28px rgba(0,0,0,.25);
+    transition: transform .2s ease, filter .2s ease, background .3s ease, border-color .3s ease;
   }
+  .theme-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
   .theme-btn .i-sun { display: none; }
   [data-theme="light"] .theme-btn .i-sun { display: block; }
   [data-theme="light"] .theme-btn .i-moon { display: none; }
 
   /* ---------- Hero ---------- */
-  .hero { background: var(--hero); padding: 5.5rem 0 4.5rem; }
+  .hero { background: var(--hero); padding: 2.5rem 0 3.5rem; }
   .hero-grid { display: grid; gap: 3rem; align-items: center; }
   @media (min-width: 880px) { .hero-grid { grid-template-columns: 1.2fr 1fr; gap: 4rem; } }
   .hero h1 { font-size: clamp(3.4rem, 9vw, 5.6rem); letter-spacing: .03em; line-height: 1; }
@@ -253,10 +256,11 @@
   }
 
   @media (max-width: 480px) {
-    .section { padding: 3.5rem 0; }
+    .section { padding: 3rem 0; }
     .wa-float .txt { display: none; }
-    .wa-float { padding: .75rem; }
-    .hero { padding-top: 5rem; }
+    .wa-float { width: 48px; height: 48px; min-height: 48px; padding: 0; justify-content: center; border-radius: 50%; right: 16px; bottom: 16px; }
+    .theme-btn { right: 16px; bottom: 74px; }
+    .hero { padding-top: 1.75rem; padding-bottom: 2.5rem; }
   }
 </style>
 </head>
@@ -337,8 +341,8 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a3 3 0 0 0 0 6v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a3 3 0 0 0 0-6z"/></svg>
         </div>
         <div>
-          <div class="label">HTM</div>
-          <div class="value">Admin Rp25.000</div>
+          <div class="label">Tiket</div>
+          <div class="value">25.000<small style="font-size: 1rem; font-family: 'Inter', sans-serif; font-weight: 400; color: var(--muted);">/orang</small></div>
           <div class="note">atau bayar di lokasi (OTS)</div>
         </div>
       </div>
@@ -351,7 +355,7 @@
     <div class="section-head reveal">
       <span class="eyebrow">Pembahasan</span>
       <h2 class="section-title">Yang Akan Kita <span class="hl">Bahas</span></h2>
-      <p class="section-sub">Lima topik utama dari buku IKIGAI yang kita kupas bersama.</p>
+      <p class="section-sub">Lima topik utama dari buku IKIGAI yang kita bedah bareng.</p>
     </div>
 
     <div class="topics">
@@ -359,7 +363,7 @@
         <div class="topic-num">01</div>
         <div>
           <h3>Kekuatan Kebiasaan Kecil</h3>
-          <p>Mengapa kebiasaan kecil dan konsisten sehari-hari bisa menghasilkan kehidupan yang lebih bermakna daripada ambisi besar yang tidak stabil.</p>
+          <p>Kenapa kebiasaan kecil yang dilakukan konsisten bisa bikin hidup lebih bermakna dibanding ambisi besar yang gampang goyah.</p>
         </div>
       </article>
 
@@ -367,15 +371,15 @@
         <div class="topic-num">02</div>
         <div>
           <h3>Resiliensi &amp; Antifragility</h3>
-          <p>Cara menyikapi stres dan perubahan hidup dengan membangun resiliensi (<em>antifragility</em>).</p>
+          <p>Cara menghadapi stres dan perubahan hidup dengan membangun ketahanan diri (<em>antifragility</em>).</p>
         </div>
       </article>
 
       <article class="card topic reveal">
         <div class="topic-num">03</div>
         <div>
-          <h3>Berhenti Berlebihan</h3>
-          <p>Menghentikan kebiasaan berlebihan (<em>hara hachi bu</em>) yang merusak kesehatan fisik dan mental.</p>
+          <h3>Berhenti Sebelum Kenyang</h3>
+          <p>Belajar berhenti makan saat perut sudah sekitar 80% kenyang (<em>hara hachi bu</em>), kebiasaan yang menjaga kesehatan fisik dan mental.</p>
         </div>
       </article>
 
@@ -383,7 +387,7 @@
         <div class="topic-num">04</div>
         <div>
           <h3>Menemukan <em>Flow State</em></h3>
-          <p>Mengapa menemukan alur ketenangan (<em>flow state</em>) dalam aktivitas kecil dari sekarang sangat menentukan kualitas hidup.</p>
+          <p>Kenapa bisa fokus penuh (<em>flow state</em>) saat mengerjakan hal-hal kecil sehari-hari ternyata berpengaruh besar ke kualitas hidup.</p>
         </div>
       </article>
 
@@ -391,7 +395,7 @@
         <div class="topic-num">05</div>
         <div>
           <h3>Alasan untuk Bangun di Pagi Hari</h3>
-          <p>Memiliki alasan untuk bangun di pagi hari (<em>ikigai</em>) serta kebebasan menikmati hidup yang seimbang.</p>
+          <p>Punya alasan kuat buat bangun pagi (<em>ikigai</em>) dan bisa menikmati hidup dengan seimbang.</p>
         </div>
       </article>
     </div>
@@ -403,7 +407,7 @@
     <div class="section-head reveal">
       <span class="eyebrow">Catatan Ngecamp</span>
       <h2 class="section-title">Persiapan <span class="hl">Ngecamp</span></h2>
-      <p class="section-sub">Diskusinya sambil ngecamp, jadi siapkan perlengkapan berikut.</p>
+      <p class="section-sub">Diskusinya sambil ngecamp, jadi siapin perlengkapan ini dulu ya.</p>
     </div>
 
     <div class="split">
@@ -411,13 +415,15 @@
         <h3>Tenda</h3>
         <ul>
           <li>Bisa membawa tenda sendiri.</li>
-          <li>Belum punya tenda? Minta rekomendasi tempat sewa tenda melalui panitia.</li>
+          <li>Belum punya tenda? Tanya panitia aja buat rekomendasi tempat sewanya.</li>
         </ul>
       </div>
       <div class="panel reveal">
-        <h3>Makanan</h3>
+        <h3>Perlengkapan Lain</h3>
         <ul>
-          <li>Setiap peserta membawa makanan masing-masing.</li>
+          <li>Makanan, camilan, atau minuman favorit masing-masing.</li>
+          <li>Jaket/pakaian hangat dan obat pribadi bila diperlukan.</li>
+          <li>Bawa perlengkapan santai secukupnya buat teman ngobrol.</li>
         </ul>
       </div>
     </div>
@@ -427,16 +433,16 @@
 <section class="section alt" id="tiket">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow">HTM &amp; Pembayaran</span>
+      <span class="eyebrow">Tiket &amp; Pembayaran</span>
       <h2 class="section-title">Pilih <span class="hl">Tiket</span></h2>
-      <p class="section-sub">Dua pilihan pembayaran. Pilih yang paling sesuai untuk kamu.</p>
+      <p class="section-sub">Ada dua cara bayar. Pilih yang paling pas buat kamu.</p>
     </div>
 
     <div class="tickets">
       <div class="card ticket highlight reveal">
         <span class="tag">Direkomendasikan</span>
         <h3>Tiket Admin</h3>
-        <div class="price">TF Rp25.000 <small>/ orang</small></div>
+        <div class="price">Rp25.000 <small>/ orang</small></div>
         <ul>
           <li>Pembayaran lewat transfer ke admin</li>
           <li>Tiket dikonfirmasi via WhatsApp</li>
@@ -446,25 +452,25 @@
       </div>
 
       <div class="card ticket reveal">
-        <h3>Tiket OTS</h3>
+        <h3>Tiket Bayar di Tempat</h3>
         <div class="price">Bayar di Lokasi</div>
         <ul>
           <li>Pembayaran langsung saat tiba di Pijar Park Kudus</li>
           <li>Cocok untuk yang belum memastikan kehadiran</li>
           <li>Tetap wajib mendaftar lewat form di bawah</li>
         </ul>
-        <a href="#daftar" class="btn btn-outline" data-pick="OTS (Bayar di Lokasi)">Pilih Tiket OTS</a>
+        <a href="#daftar" class="btn btn-outline" data-pick="OTS (Bayar di Lokasi)">Pilih Tiket Bayar di Tempat</a>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section" id="daftar">
+  <section class="section" id="daftar">
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow">Pendaftaran</span>
       <h2 class="section-title">Daftar <span class="hl">Sekarang</span></h2>
-      <p class="section-sub">Isi data di bawah. Data kamu akan tersimpan otomatis di database pendaftar kami.</p>
+      <p class="section-sub">Isi data di bawah. Kamu akan langsung diarahkan ke WhatsApp admin untuk konfirmasi pendaftaran.</p>
     </div>
 
     <div class="card form-card reveal">
@@ -496,12 +502,12 @@
           <legend class="group-label" style="margin-bottom:.4rem;">Jenis Tiket <span class="req">*</span></legend>
           <div class="radio-group">
             <label class="radio-card">
-              <input type="radio" name="tiket" value="Admin (TF Rp25.000)">
+              <input type="radio" name="tiket" value="Tiket Admin (TF Rp25.000)">
               <div><strong>Tiket Admin</strong><small>Transfer Rp25.000 ke admin</small></div>
             </label>
             <label class="radio-card">
-              <input type="radio" name="tiket" value="OTS (Bayar di Lokasi)">
-              <div><strong>Tiket OTS</strong><small>Bayar langsung di lokasi</small></div>
+              <input type="radio" name="tiket" value="Tiket Bayar di Tempat (OTS)">
+              <div><strong>Tiket Bayar di Tempat</strong><small>Bayar langsung di lokasi</small></div>
             </label>
           </div>
         </fieldset>
@@ -509,11 +515,11 @@
         <div class="field" data-field>
           <label for="jumlah">Jumlah Peserta <span class="req">*</span></label>
           <select id="jumlah" name="jumlah" required>
-            <option value="1">1 orang</option>
-            <option value="2">2 orang</option>
-            <option value="3">3 orang</option>
-            <option value="4">4 orang</option>
-            <option value="5">5 orang atau lebih</option>
+            <option value="1 orang">1 orang</option>
+            <option value="2 orang">2 orang</option>
+            <option value="3 orang">3 orang</option>
+            <option value="4 orang">4 orang</option>
+            <option value="5 orang atau lebih">5 orang atau lebih</option>
           </select>
         </div>
 
@@ -536,14 +542,14 @@
 
         <div class="actions">
           <p class="fine">Dengan mendaftar, kamu setuju data dipakai untuk keperluan acara ini.</p>
-          <button type="submit" class="btn btn-accent" id="submitBtn">Kirim Pendaftaran</button>
+          <button type="submit" class="btn btn-accent" id="submitBtn">Kirim Pendaftaran via WhatsApp</button>
         </div>
       </form>
     </div>
 
     <div class="ask reveal">
       <p>Ada pertanyaan? Langsung chat admin kami.</p>
-      <a class="btn btn-wa" href="https://wa.me/6281809206818?text=Halo%20Aditya%2C%20saya%20mau%20tanya%20tentang%20Diskusi%20Buku%20%26%20Ngecamp%20IKIGAI" target="_blank" rel="noopener">
+      <a class="btn btn-wa" href="https://wa.me/6281809206819?text=Halo%20Aditya%2C%20saya%20mau%20tanya%20tentang%20Diskusi%20Buku%20%26%20Ngecamp%20IKIGAI" target="_blank" rel="noopener">
         Tanya via WhatsApp (Aditya)
       </a>
     </div>
@@ -553,20 +559,18 @@
 <footer>
   <div class="wrap">
     <div class="slogan">Baca Bareng • Ngobrol • Ngecamp • Temukan Ikigai-mu</div>
-    <p>Informasi &amp; pendaftaran: <a href="https://wa.me/6281809206818" target="_blank" rel="noopener">0818 0920 6818 (Aditya)</a></p>
+    <p>Informasi &amp; pendaftaran: <a href="https://wa.me/6281809206819" target="_blank" rel="noopener">0818 0920 6819 (Aditya)</a></p>
     <p>Terbuka untuk umum · Pijar Park Kudus · 7–8 November 2026</p>
   </div>
 </footer>
 
-<a class="wa-float" href="https://wa.me/6281809206818?text=Halo%20Aditya%2C%20saya%20mau%20tanya%20tentang%20IKIGAI" target="_blank" rel="noopener" aria-label="Tanya via WhatsApp">
+<a class="wa-float" href="https://wa.me/6281809206819?text=Halo%20Aditya%2C%20saya%20mau%20tanya%20tentang%20IKIGAI" target="_blank" rel="noopener" aria-label="Tanya via WhatsApp">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11 11 0 0 0 3.2 17.3L2 22l4.8-1.2A11 11 0 1 0 20.5 3.5zM12 20.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-2.8.7.8-2.7-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.8 11.8 0 0 0 4.5 4c2.2.9 2.6.7 3.1.7a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .1-1.2c-.1-.1-.2-.2-.4-.3z"/></svg>
   <span class="txt">Tanya WA</span>
 </a>
 
 <script>
-  /* Ganti dengan URL Web App Google Apps Script yang terhubung ke Google Sheets */
-  const SHEET_ENDPOINT = "https://script.google.com/macros/s/AKfycbx9xJ2OhSuNiToFYPySQQFfgWU1sSBuxblLIXKKvTWSO2lNwq9drPv5-QnErDfj_8Ch7g/exec";
-  const WA_NUMBER = "6281809206818";
+  const WA_NUMBER = "6281809206819";
 
   /* ---------- Tema terang / gelap ---------- */
   const root = document.documentElement;
@@ -592,7 +596,8 @@
   /* ---------- Pilih tiket dari kartu ---------- */
   document.querySelectorAll("[data-pick]").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const radio = document.querySelector(`input[name="tiket"][value="${btn.dataset.pick}"]`);
+      const pick = btn.dataset.pick;
+      const radio = document.querySelector(`input[name="tiket"][value*="${pick}"]`);
       if (radio) radio.checked = true;
     });
   });
@@ -620,7 +625,7 @@
     return ok;
   }
 
-  form.addEventListener("submit", async (ev) => {
+  form.addEventListener("submit", (ev) => {
     ev.preventDefault();
     statusEl.className = "status";
     statusEl.textContent = "";
@@ -632,51 +637,50 @@
       return;
     }
 
-    if (SHEET_ENDPOINT.startsWith("GANTI")) {
-      showStatus("err", "Form belum terhubung ke database. Silakan daftar lewat WhatsApp dulu.");
-      return;
-    }
-
     const data = {
       nama: form.nama.value.trim(),
       wa: form.wa.value.trim(),
-      email: form.email.value.trim(),
+      email: form.email.value.trim() || "-",
       kota: form.kota.value.trim(),
       tiket: form.tiket.value,
       jumlah: form.jumlah.value,
       tenda: form.tenda.value,
-      catatan: form.catatan.value.trim(),
-      sumber: location.href
+      catatan: form.catatan.value.trim() || "-"
     };
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Mengirim...";
+    const pesan = [
+      "Halo Kak Aditya, saya mau konfirmasi pendaftaran Diskusi Buku & Ngecamp IKIGAI di Pijar Park Kudus.",
+      "",
+      "*Data Pendaftar:*",
+      `• Nama: ${data.nama}`,
+      `• No. WhatsApp: ${data.wa}`,
+      `• Email: ${data.email}`,
+      `• Kota Asal: ${data.kota}`,
+      `• Pilihan Tiket: ${data.tiket}`,
+      `• Jumlah Peserta: ${data.jumlah}`,
+      `• Tenda: ${data.tenda}`,
+      `• Catatan: ${data.catatan}`,
+      "",
+      "Mohon info konfirmasi dan petunjuk selanjutnya ya kak. Terima kasih!"
+    ].join("\n");
 
-    try {
-      // mode no-cors: data tetap terkirim ke Apps Script walau respons tidak bisa dibaca browser
-      await fetch(SHEET_ENDPOINT, { method: "POST", mode: "no-cors", body: new URLSearchParams(data) });
+    const waLink = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(pesan)}`;
 
-      const pesan = encodeURIComponent(
-        `Halo Aditya, saya sudah mendaftar IKIGAI.\nNama: ${data.nama}\nJenis tiket: ${data.tiket}\nJumlah: ${data.jumlah}`
-      );
-      const waLink = `https://wa.me/${WA_NUMBER}?text=${pesan}`;
+    showStatus("ok", "Membuka WhatsApp untuk mengirim pendaftaran...");
+    
+    // Buka WhatsApp di tab / aplikasi baru
+    window.open(waLink, "_blank");
 
-      form.reset();
-      showStatus("ok", "Pendaftaran berhasil terkirim. Terima kasih! Konfirmasi tiket akan dikirim via WhatsApp.");
-
-      const info = document.createElement("a");
-      info.className = "btn btn-wa";
-      info.href = waLink;
-      info.target = "_blank";
-      info.rel = "noopener";
-      info.textContent = "Konfirmasi via WhatsApp";
-      statusEl.appendChild(info);
-    } catch (err) {
-      showStatus("err", "Gagal mengirim pendaftaran. Coba lagi atau daftar lewat WhatsApp.");
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = "Kirim Pendaftaran";
-    }
+    // Tombol cadangan jika popup browser terblokir
+    const manualBtn = document.createElement("a");
+    manualBtn.className = "btn btn-wa";
+    manualBtn.href = waLink;
+    manualBtn.target = "_blank";
+    manualBtn.rel = "noopener";
+    manualBtn.style.marginTop = "0.75rem";
+    manualBtn.textContent = "Klik di sini jika WhatsApp tidak terbuka";
+    statusEl.innerHTML = "<div>Pendaftaran siap dikirim! Klik tombol di bawah jika WhatsApp tidak otomatis terbuka:</div>";
+    statusEl.appendChild(manualBtn);
   });
 </script>
 </body>
