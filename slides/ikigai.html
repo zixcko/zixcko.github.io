@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Ikigai — Ringkasan Buku</title>
+<meta name="description" content="Ringkasan interaktif buku Ikigai karya Héctor García dan Francesc Miralles dalam 10 slide.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FBFAF8;
+    --surface: #FFFFFF;
+    --ink: #2B2A28;
+    --muted: #6B6860;
+    --line: #E6E2D9;
+    --accent: #0061FE;
+    --accent-ink: #FFFFFF;
+    --accent-soft: #EAF2FF;
+    --accent-line: #C9DDFF;
+    --hl: #FFE58F;
+    --hly: #FFE58F;
+    --pale: rgba(0, 97, 254, 0.07);
+    --shadow: 0 1px 2px rgba(43, 42, 40, 0.06), 0 10px 28px rgba(43, 42, 40, 0.07);
+    --serif: "Fraunces", "Lora", Georgia, "Times New Roman", serif;
+    --sans: "DM Sans", "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161513;
+      --surface: #201F1C;
+      --ink: #F2EFE8;
+      --muted: #A8A399;
+      --line: #35332E;
+      --accent: #6AA6FF;
+      --accent-ink: #0B1B33;
+      --accent-soft: rgba(106, 166, 255, 0.12);
+      --accent-line: rgba(106, 166, 255, 0.35);
+      --hl: rgba(255, 229, 143, 0.30);
+      --pale: rgba(106, 166, 255, 0.09);
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  h1, h2, p, figure, ul { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  /* ---------- Bilah atas ---------- */
+  .bar { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--line); z-index: 30; }
+  .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width .5s ease; }
+  .top {
+    position: fixed; top: 3px; left: 0; right: 0; z-index: 20;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 20px; font-size: .82rem; color: var(--muted); pointer-events: none;
+  }
+  .top .brand { font-family: var(--serif); font-weight: 600; letter-spacing: .01em; }
+  .top .mark { font-variant-numeric: tabular-nums; letter-spacing: .08em; font-weight: 600; color: var(--ink); }
+
+  /* ---------- Panggung & slide ---------- */
+  #stage { position: fixed; inset: 0; }
+  .slide {
+    position: absolute; inset: 0; overflow-x: hidden; overflow-y: auto;
+    padding: 72px 20px 112px;
+    opacity: 0; visibility: hidden;
+    transition: opacity .45s ease, visibility 0s linear .45s;
+    -webkit-overflow-scrolling: touch;
+  }
+  .slide.on { opacity: 1; visibility: visible; transition: opacity .45s ease, visibility 0s; }
+
+  .inner {
+    position: relative; max-width: 640px; margin: 0 auto; min-height: 100%;
+    display: grid; align-content: center; gap: 28px;
+  }
+  .col { position: relative; z-index: 1; display: grid; gap: 20px; align-content: center; min-width: 0; }
+  @media (min-width: 900px) {
+    .slide { padding: 84px 48px 116px; }
+    .inner { max-width: 1080px; grid-template-columns: 1.02fr 1fr; gap: 64px; align-items: center; }
+  }
+
+  .bgnum {
+    position: absolute; right: -4px; top: 0; z-index: 0; pointer-events: none; user-select: none;
+    font-family: var(--serif); font-weight: 700; line-height: 1;
+    font-size: clamp(8rem, 24vw, 16rem); color: var(--pale);
+  }
+
+  /* ---------- Tipografi ---------- */
+  h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(3.4rem, 11vw, 6.4rem); line-height: 1; letter-spacing: -.02em; }
+  h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.95rem, 4.8vw, 3rem); line-height: 1.12; letter-spacing: -.01em; }
+  .kick { font-size: .78rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+  .sub { font-family: var(--serif); font-weight: 500; font-size: clamp(1.1rem, 2.4vw, 1.4rem); line-height: 1.35; color: var(--muted); }
+  .by { font-size: .95rem; color: var(--muted); }
+  .core { font-size: clamp(1.15rem, 2.2vw, 1.4rem); line-height: 1.55; }
+
+  /* Stabilo */
+  .hl {
+    background-image: linear-gradient(var(--hl), var(--hl));
+    background-repeat: no-repeat; background-position: 0 90%; background-size: 0 .55em;
+    padding: 0 .12em; margin: 0 -.12em; border-radius: 3px;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  .slide.on .hl { background-size: 100% .55em; transition: background-size .9s cubic-bezier(.3, .7, .2, 1) .7s; }
+  .slide:not(.on) .hl { transition: background-size 0s linear .45s; }
+
+  /* Muncul bergantian */
+  .rv { opacity: 0; transform: translateY(16px); }
+  .slide.on .rv {
+    opacity: 1; transform: none;
+    transition: opacity .6s ease calc(var(--i, 0) * 90ms + 120ms), transform .6s cubic-bezier(.2, .7, .2, 1) calc(var(--i, 0) * 90ms + 120ms);
+  }
+  .slide:not(.on) .rv { transition: opacity 0s linear .45s, transform 0s linear .45s; }
+
+  /* ---------- Poin & Terapkan ---------- */
+  .pts { display: grid; }
+  .pt { padding: 18px 0; border-top: 1px solid var(--line); font-size: clamp(1.02rem, 1.7vw, 1.15rem); line-height: 1.6; }
+  .pt:last-child { border-bottom: 1px solid var(--line); }
+  .pt > span { display: block; transition: transform .25s ease; }
+  .pt:hover > span { transform: translateX(5px); }
+
+  .apply {
+    padding: 20px 22px; border-radius: 16px; background: var(--accent-soft);
+    border: 1px solid var(--accent-line); box-shadow: var(--shadow);
+    transition: border-color .25s ease, box-shadow .25s ease;
+  }
+  .apply:hover { border-color: var(--accent); box-shadow: 0 2px 4px rgba(0, 0, 0, .06), 0 14px 32px rgba(0, 97, 254, .14); }
+  .lab { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .lab svg { width: 18px; height: 18px; }
+  .apply p:last-child { font-size: 1.02rem; line-height: 1.6; }
+
+  /* ---------- Hero ---------- */
+  .hero-col { gap: 16px; }
+  .stat { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; padding: 6px 0 2px; }
+  .stat .big { font-family: var(--serif); font-weight: 700; font-size: clamp(2.8rem, 7vw, 4rem); line-height: 1; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .stat .cap { font-size: .95rem; color: var(--muted); max-width: 22ch; line-height: 1.4; }
+  .btn {
+    justify-self: start; display: inline-flex; align-items: center; gap: 10px; cursor: pointer;
+    min-height: 48px; padding: 12px 26px; border: 0; border-radius: 999px;
+    background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 1rem;
+    box-shadow: 0 6px 18px rgba(0, 97, 254, .25);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0, 97, 254, .32); }
+  .btn:active { transform: translateY(0); }
+  .btn svg { width: 18px; height: 18px; transition: transform .2s ease; }
+  .btn:hover svg { transform: translateX(4px); }
+
+  /* ---------- Ilustrasi ---------- */
+  .ill { width: 100%; max-width: 420px; justify-self: center; }
+  .ill svg { display: block; width: 100%; height: auto; max-height: min(42vh, 320px); margin: 0 auto; transition: transform .4s ease; }
+  .ill:hover svg { transform: scale(1.025); }
+  .ln { fill: none; stroke: var(--ink); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .acl { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .bgf { fill: var(--bg); }
+  .sf { fill: var(--surface); }
+  .hf { fill: var(--hly); }
+  .ac { fill: var(--accent); }
+  .vn { fill: var(--accent); fill-opacity: .1; }
+  .dash { stroke-dasharray: 6 7; }
+  .ill text { font-family: var(--sans); font-size: 13px; font-weight: 600; fill: var(--ink); }
+  .ill text.mut { fill: var(--muted); font-weight: 500; }
+  .ill text.dk { fill: #2B2A28; }
+  .draw { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .slide.on .draw { stroke-dashoffset: 0; transition: stroke-dashoffset 1.6s ease .5s; }
+  .slide:not(.on) .draw { transition: stroke-dashoffset 0s linear .45s; }
+  .stp { fill: var(--accent); fill-opacity: .14; opacity: 0; }
+  .slide.on .stp { opacity: 1; transition: opacity .5s ease calc(.4s + var(--s, 0) * .22s); }
+  .slide:not(.on) .stp { transition: opacity 0s linear .45s; }
+
+  /* ---------- Slide terakhir ---------- */
+  .check { margin: 0; padding: 18px 20px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--surface); box-shadow: var(--shadow); min-width: 0; }
+  .check legend { padding: 0 8px; font-size: .78rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+  .ck { position: relative; display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; cursor: pointer; font-size: 1rem; line-height: 1.5; }
+  .ck input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .box { flex: none; width: 22px; height: 22px; margin-top: 2px; border-radius: 7px; border: 2px solid var(--muted); display: grid; place-items: center; transition: background .2s ease, border-color .2s ease, transform .2s ease; }
+  .box::after { content: ""; width: 5px; height: 10px; margin-top: -2px; border: solid var(--accent-ink); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) scale(0); transition: transform .2s ease; }
+  .ck:hover .box { border-color: var(--accent); transform: scale(1.06); }
+  .ck input:checked + .box { background: var(--accent); border-color: var(--accent); }
+  .ck input:checked + .box::after { transform: rotate(45deg) scale(1); }
+  .ck input:focus-visible + .box { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .ck input:checked ~ .tx { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--accent); }
+  .prog { margin-top: 8px; }
+  .prog-b { height: 6px; border-radius: 99px; background: var(--line); overflow: hidden; }
+  .prog-f { display: block; height: 100%; width: 0; background: var(--accent); border-radius: 99px; transition: width .35s ease; }
+  .prog-t { margin-top: 8px; font-size: .88rem; color: var(--muted); }
+  .cta { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-radius: 16px; background: var(--hl); font-weight: 600; line-height: 1.45; transition: transform .2s ease; }
+  .slide.on .cta.rv { transition: opacity .6s ease calc(var(--i, 0) * 90ms + 120ms), transform .6s cubic-bezier(.2, .7, .2, 1) calc(var(--i, 0) * 90ms + 120ms); }
+  .cta svg { flex: none; width: 26px; height: 26px; }
+  .last .col { gap: 14px; }
+  .last .pt { padding: 12px 0; font-size: 1rem; }
+  .last .ck { padding: 6px 0; font-size: .95rem; }
+  .last .ill svg { max-height: min(28vh, 240px); }
+  .disc { grid-column: 1 / -1; position: relative; z-index: 1; margin-top: 4px; padding-top: 20px; border-top: 1px solid var(--line); font-size: .82rem; line-height: 1.65; color: var(--muted); }
+
+  /* ---------- Navigasi bawah ---------- */
+  .nav {
+    position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%); z-index: 40;
+    display: flex; align-items: center; gap: 6px; padding: 6px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 999px; box-shadow: var(--shadow);
+    max-width: calc(100vw - 16px);
+  }
+  @supports (background: color-mix(in srgb, red 50%, blue)) {
+    .nav { background: color-mix(in srgb, var(--surface) 86%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  }
+  .nb {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 44px; min-width: 44px; padding: 0 12px;
+    border: 0; border-radius: 999px; background: transparent; cursor: pointer; font-size: .92rem; font-weight: 600;
+    transition: background .2s ease, transform .2s ease, opacity .2s ease;
+  }
+  .nb:hover:not(:disabled) { background: var(--accent-soft); transform: scale(1.04); }
+  .nb:disabled { opacity: .35; cursor: default; }
+  .nb svg { width: 20px; height: 20px; flex: none; }
+  .nb .t { display: none; }
+  @media (min-width: 640px) { .nb .t { display: inline; } .nb { padding: 0 16px; } }
+  .dots { display: flex; align-items: center; }
+  .dot { position: relative; width: 18px; height: 32px; padding: 0; border: 0; background: transparent; cursor: pointer; transition: width .3s ease; }
+  .dot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; border-radius: 99px; transform: translate(-50%, -50%); background: var(--line); border: 1px solid var(--muted); transition: width .3s ease, background .3s ease, border-color .3s ease; }
+  .dot:hover::after { background: var(--muted); }
+  .dot[aria-current="true"] { width: 36px; }
+  .dot[aria-current="true"]::after { width: 26px; background: var(--accent); border-color: var(--accent); }
+
+  noscript { position: fixed; inset: 0; display: grid; place-items: center; background: var(--bg); padding: 24px; text-align: center; z-index: 100; }
+
+  /* ---------- Kurangi gerak ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .rv { opacity: 1 !important; transform: none !important; }
+    .hl { background-size: 100% .55em !important; }
+    .draw { stroke-dashoffset: 0 !important; }
+    .stp { opacity: 1 !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bar" aria-hidden="true"><i id="fill"></i></div>
+<div class="top">
+  <span class="brand">Ikigai · Ringkasan Buku</span>
+  <span class="mark" id="mark" aria-live="polite" aria-atomic="true">01 / 10</span>
+</div>
+
+<main id="stage" aria-label="Presentasi ringkasan buku Ikigai"></main>
+
+<nav class="nav" aria-label="Navigasi slide">
+  <button class="nb" id="prev" type="button" aria-label="Slide sebelumnya">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    <span class="t">Sebelumnya</span>
+  </button>
+  <div class="dots" id="dots"></div>
+  <button class="nb" id="next" type="button" aria-label="Slide berikutnya">
+    <span class="t">Berikutnya</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</nav>
+
+<noscript>Aktifkan JavaScript untuk melihat presentasi ini.</noscript>
+
+<script>
+(function () {
+  'use strict';
+
+  /* =========================================================
+     DATA — ganti array S untuk buku lain.
+     t judul · c kalimat inti · p tiga poin · x kotak "Terapkan"
+     a deskripsi ilustrasi (aria-label) · i markup SVG ilustrasi
+     Tanda [[kata]] = kata kunci yang disorot stabilo.
+     ========================================================= */
+  const DISCLAIMER = 'Ringkasan ini bersifat edukatif dan tidak menggantikan nasihat profesional. Semua hak atas buku ada pada Héctor García dan Francesc Miralles serta penerbitnya. Halaman ini adalah ringkasan independen dengan kata-kata sendiri.';
+
+  const S = [
+    {
+      t: 'Ikigai',
+      sub: 'Rahasia Hidup Bahagia dan Panjang Umur Orang Jepang',
+      au: 'Héctor García & Francesc Miralles',
+      c: 'Hidup panjang dan bahagia berawal dari hal sederhana: punya [[alasan untuk bangun pagi]] dan menjalani hari dengan [[tenang]].',
+      st: { n: 80, s: '%', l: 'takaran kenyang ala Okinawa: berhenti sebelum perut penuh' },
+      p: [],
+      x: '',
+      a: 'Matahari terbit di balik perbukitan dengan sinar yang menyebar dan seekor burung terbang',
+      i: '<svg viewBox="0 0 360 280" aria-hidden="true" focusable="false">' +
+         '<circle class="hf ln" cx="180" cy="175" r="56"/>' +
+         '<path class="acl" d="M109 162L89 159M118 139L100 129M134 120L121 105M155 107L149 89M180 103V83M205 107L212 89M226 120L239 105M242 139L260 129M251 162L271 159"/>' +
+         '<path class="bgf" d="M-4 214C60 154 130 150 190 202S310 176 364 204V284H-4Z"/>' +
+         '<path class="ln" d="M-4 214C60 154 130 150 190 202S310 176 364 204"/>' +
+         '<path class="ln" d="M268 70q8-10 16 0q8-10 16 0"/>' +
+         '</svg>'
+    },
+    {
+      t: 'Desa para pemilik umur panjang',
+      c: 'Para penulis mendatangi [[Ogimi]] di Okinawa, tempat banyak orang tetap [[aktif dan ceria]] hingga usia senja, lalu mencari tahu pola hidupnya.',
+      p: [
+        'Tidak ada satu rahasia ajaib; [[kebiasaan harian]] kecil yang konsisten membentuk umur panjang.',
+        'Banyak warga lanjut usia tetap [[berkegiatan]], seperti berkebun dan mengurus komunitas, alih-alih berhenti total.',
+        'Lingkungan yang akrab membuat mereka merasa [[punya tempat]] dan tidak sendirian.'
+      ],
+      x: 'Tulis satu kegiatan yang ingin kamu tetap lakukan sampai tua, lalu jadwalkan sekali minggu ini.',
+      a: 'Pulau kecil dengan penanda lokasi, dikelilingi ombak dan matahari',
+      i: '<svg viewBox="0 0 360 260" aria-hidden="true" focusable="false">' +
+         '<circle class="hf ln" cx="300" cy="56" r="18"/>' +
+         '<path class="acl" d="M60 60q12-8 24 0t24 0t24 0"/>' +
+         '<path class="sf ln" d="M70 150C80 110 140 100 190 112C240 120 290 110 300 140C310 170 260 190 200 186C150 196 90 190 70 150Z"/>' +
+         '<path class="ln" d="M110 160q20-30 42 0M232 168q16-22 34 0"/>' +
+         '<path class="ac ln" d="M210 152C196 136 192 130 192 122a18 18 0 0 1 36 0C228 130 224 136 210 152Z"/>' +
+         '<circle class="sf" cx="210" cy="122" r="6"/>' +
+         '<path class="acl" d="M40 220q15-10 30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0"/>' +
+         '</svg>'
+    },
+    {
+      t: 'Apa itu ikigai?',
+      c: 'Ikigai adalah [[alasan untuk bangun setiap pagi]], sering digambarkan sebagai titik temu hal yang kamu cintai, kuasai, dibutuhkan dunia, dan bisa dibayar.',
+      p: [
+        'Cinta dan keahlian melahirkan [[gairah]]; keahlian dan penghasilan melahirkan [[profesi]].',
+        'Kebutuhan dunia dan cinta melahirkan [[misi]]; kebutuhan dunia dan penghasilan melahirkan [[panggilan]].',
+        'Ikigai bisa berupa hal kecil dan berubah seiring waktu, jadi [[tak perlu sekali jadi]].'
+      ],
+      x: 'Gambar empat lingkaran di kertas, isi masing-masing tiga kata, lalu lihat kata mana yang muncul berulang.',
+      a: 'Empat lingkaran saling beririsan dengan titik temu bertanda ikigai di tengahnya',
+      i: '<svg viewBox="0 0 320 240" aria-hidden="true" focusable="false">' +
+         '<circle class="vn ln" cx="160" cy="82" r="58"/>' +
+         '<circle class="vn ln" cx="160" cy="158" r="58"/>' +
+         '<circle class="vn ln" cx="122" cy="120" r="58"/>' +
+         '<circle class="vn ln" cx="198" cy="120" r="58"/>' +
+         '<circle class="hf ln" cx="160" cy="120" r="22"/>' +
+         '<text class="dk" x="160" y="124" text-anchor="middle" style="font-size:11px;font-weight:700">ikigai</text>' +
+         '<text x="160" y="48" text-anchor="middle">Dicintai</text>' +
+         '<text x="90" y="124" text-anchor="middle">Mahir</text>' +
+         '<text x="230" y="116" text-anchor="middle">Dunia</text>' +
+         '<text x="230" y="132" text-anchor="middle">butuh</text>' +
+         '<text x="160" y="204" text-anchor="middle">Dibayar</text>' +
+         '</svg>'
+    },
+    {
+      t: 'Kebiasaan kecil, hidup bermakna',
+      c: 'Hidup yang bermakna lebih sering dibangun dari [[hal kecil yang konsisten]] daripada ambisi besar yang naik turun.',
+      p: [
+        'Ritual harian sederhana, seperti jalan pagi atau menyiram tanaman, memberi [[ritme]] yang menenangkan pada hari.',
+        'Aktivitas ringan yang rutin lebih mudah dijaga bertahun-tahun daripada program berat yang [[cepat padam]].',
+        'Hidup tanpa terburu-buru memberi ruang untuk [[menikmati]] hal sederhana.'
+      ],
+      x: 'Pilih satu kebiasaan yang bisa selesai dalam lima menit, lalu ulangi tujuh hari berturut-turut.',
+      a: 'Tangga dengan anak tangga kecil yang naik bertahap menuju sebuah bendera',
+      i: '<svg viewBox="0 0 320 220" aria-hidden="true" focusable="false">' +
+         '<circle class="hf ln" cx="288" cy="28" r="12"/>' +
+         '<rect class="stp" style="--s:0" x="20" y="160" width="50" height="30"/>' +
+         '<rect class="stp" style="--s:1" x="70" y="130" width="50" height="60"/>' +
+         '<rect class="stp" style="--s:2" x="120" y="100" width="50" height="90"/>' +
+         '<rect class="stp" style="--s:3" x="170" y="70" width="50" height="120"/>' +
+         '<rect class="stp" style="--s:4" x="220" y="40" width="50" height="150"/>' +
+         '<path class="ln" d="M10 190H310" opacity=".4"/>' +
+         '<path class="ln draw" pathLength="1" d="M20 190V160H70V130H120V100H170V70H220V40H270"/>' +
+         '<path class="ln" d="M270 40V12"/>' +
+         '<path class="hf ln" d="M270 12L296 20L270 28Z"/>' +
+         '</svg>'
+    },
+    {
+      t: 'Berhenti sebelum penuh',
+      c: 'Orang Okinawa punya pegangan [[hara hachi bu]]: berhenti makan saat perut [[sekitar 80% kenyang]].',
+      p: [
+        'Makan perlahan memberi waktu bagi tubuh [[memberi sinyal kenyang]] sebelum porsi menjadi berlebih.',
+        'Ini bukan diet ketat, melainkan [[kebiasaan secukupnya]] yang bisa dijalani seumur hidup.',
+        'Semangat yang sama berlaku untuk kerja, layar, dan belanja: [[cukupkan]] sebelum melelahkan.'
+      ],
+      x: 'Besok, letakkan sendok saat perut hampir kenyang, tunggu lima menit, lalu putuskan perlu tambah atau tidak.',
+      a: 'Mangkuk makan dengan garis penanda terisi sekitar delapan puluh persen dan sepasang sumpit',
+      i: '<svg viewBox="0 0 320 220" aria-hidden="true" focusable="false">' +
+         '<defs><clipPath id="bowlClip"><path d="M70 100H250C250 160 215 190 160 190C105 190 70 160 70 100Z"/></clipPath></defs>' +
+         '<path class="sf" d="M70 100H250C250 160 215 190 160 190C105 190 70 160 70 100Z"/>' +
+         '<rect class="hf" x="60" y="118" width="200" height="80" clip-path="url(#bowlClip)"/>' +
+         '<path class="ln" d="M70 100H250C250 160 215 190 160 190C105 190 70 160 70 100Z"/>' +
+         '<path class="acl dash" d="M56 118H264"/>' +
+         '<text x="268" y="123" style="fill:var(--accent);font-weight:700">80%</text>' +
+         '<path class="ln" d="M196 74L248 38M214 82L268 52"/>' +
+         '<path class="ln" d="M108 200H212" opacity=".4"/>' +
+         '</svg>'
+    },
+    {
+      t: 'Temukan alur dalam hal kecil',
+      c: 'Saat tantangan pas dengan kemampuan, kamu masuk [[flow]]: fokus penuh, waktu terasa cepat, dan hasilnya [[memuaskan]].',
+      p: [
+        'Flow lahir dari [[satu tugas]] dengan tujuan jelas, bukan dari mengerjakan banyak hal sekaligus.',
+        'Tantangan terlalu mudah membosankan, terlalu sulit membuat cemas; cari [[takaran yang pas]].',
+        'Menulis, memasak, atau berkebun bisa jadi pintu masuk [[flow harian]] yang murah dan mudah.'
+      ],
+      x: 'Sediakan 25 menit tanpa notifikasi untuk satu aktivitas favorit, lalu catat kapan waktu terasa lenyap.',
+      a: 'Grafik keahlian dan tantangan dengan pita diagonal bertanda flow di antara area bosan dan cemas',
+      i: '<svg viewBox="0 0 320 220" aria-hidden="true" focusable="false">' +
+         '<path class="ln" d="M40 190V26M34 36L40 26L46 36M40 190H300M290 184L300 190L290 196"/>' +
+         '<path d="M72 170L276 58" stroke="var(--hly)" stroke-width="44" stroke-linecap="round" fill="none"/>' +
+         '<circle class="ac ln" cx="180" cy="115" r="9"/>' +
+         '<text x="70" y="58" class="mut">Cemas</text>' +
+         '<text x="236" y="178" class="mut">Bosan</text>' +
+         '<text x="128" y="96" transform="rotate(-29 128 96)" style="font-weight:700">Flow</text>' +
+         '<text x="14" y="112" class="mut" transform="rotate(-90 14 112)" text-anchor="middle">Tantangan</text>' +
+         '<text x="170" y="212" class="mut" text-anchor="middle">Keahlian</text>' +
+         '</svg>'
+    },
+    {
+      t: 'Lentur, bahkan tumbuh dari guncangan',
+      c: 'Hidup pasti membawa stres dan perubahan; kuncinya membangun [[resiliensi]] hingga kamu bahkan bisa [[tumbuh]] karenanya.',
+      p: [
+        'Konsep [[antifragile]]: tekanan kecil yang bisa dipulihkan justru melatih kita menjadi lebih kuat.',
+        'Resiliensi bukan berarti tak pernah jatuh, tetapi [[bangkit]] dan belajar dari tiap jatuh.',
+        'Sikap [[wabi-sabi]] menerima ketidaksempurnaan dan sifat sementara segala hal, sehingga hati lebih tenang.'
+      ],
+      x: 'Tulis satu kemunduran terakhir, lalu jawab: apa yang kupelajari, dan satu langkah kecil apa hari ini?',
+      a: 'Batang bambu melengkung ditiup angin namun tetap berakar di tanah',
+      i: '<svg viewBox="0 0 320 220" aria-hidden="true" focusable="false">' +
+         '<circle class="hf ln" cx="58" cy="40" r="16"/>' +
+         '<path class="acl dash" d="M30 92H92q12 0 12-10t-10-10M30 126H72q10 0 10 8"/>' +
+         '<path class="ln" d="M20 200H300"/>' +
+         '<path class="ln" d="M120 200C120 150 135 100 175 60"/>' +
+         '<path class="ln" d="M160 200C160 140 185 90 235 55"/>' +
+         '<path class="ln" d="M200 200C200 150 215 115 255 90"/>' +
+         '<path class="ac ln" d="M175 60q18-4 28 6q-16 8-28-6Z"/>' +
+         '<path class="ac ln" d="M235 55q18-6 30 4q-18 10-30-4Z"/>' +
+         '<path class="ac ln" d="M255 90q16-2 24 8q-16 6-24-8Z"/>' +
+         '<path class="ln" d="M104 200l-6-10M136 200l6-12M178 200l-4-9M220 200l6-10"/>' +
+         '</svg>'
+    },
+    {
+      t: 'Tidak berjalan sendirian',
+      c: 'Orang Okinawa merawat [[moai]], kelompok teman dekat yang saling menopang, sehingga hidup terasa lebih [[ringan]] dan bermakna.',
+      p: [
+        'Kelompok seperti moai [[saling membantu]], dari berbagi cerita sampai dukungan saat keadaan sulit.',
+        'Kehadiran orang yang peduli membuat kita lebih [[tangguh]] ketika stres datang.',
+        'Tak perlu banyak teman; cukup beberapa yang [[rutin bertemu]] dan saling jujur.'
+      ],
+      x: 'Ajak satu atau dua teman dekat bertemu rutin, misalnya sebulan sekali, dengan satu aturan: ponsel disimpan.',
+      a: 'Enam orang membentuk lingkaran mengelilingi simbol hati',
+      i: '<svg viewBox="0 0 320 220" aria-hidden="true" focusable="false">' +
+         '<circle class="acl dash" cx="160" cy="110" r="70"/>' +
+         '<circle class="hf ln" cx="160" cy="110" r="24"/>' +
+         '<path class="ac" d="M160 122c-14-9-18-18-10-24c5-4 10-1 10 4c0-5 5-8 10-4c8 6 4 15-10 24Z"/>' +
+         '<g class="p"><circle class="sf ln" cx="230" cy="102" r="8"/><path class="ac ln" d="M217 124a13 13 0 0 1 26 0Z"/></g>' +
+         '<g class="p"><circle class="sf ln" cx="195" cy="163" r="8"/><path class="ac ln" d="M182 185a13 13 0 0 1 26 0Z"/></g>' +
+         '<g class="p"><circle class="sf ln" cx="125" cy="163" r="8"/><path class="ac ln" d="M112 185a13 13 0 0 1 26 0Z"/></g>' +
+         '<g class="p"><circle class="sf ln" cx="90" cy="102" r="8"/><path class="ac ln" d="M77 124a13 13 0 0 1 26 0Z"/></g>' +
+         '<g class="p"><circle class="sf ln" cx="125" cy="41" r="8"/><path class="ac ln" d="M112 63a13 13 0 0 1 26 0Z"/></g>' +
+         '<g class="p"><circle class="sf ln" cx="195" cy="41" r="8"/><path class="ac ln" d="M182 63a13 13 0 0 1 26 0Z"/></g>' +
+         '</svg>'
+    },
+    {
+      t: 'Sepuluh aturan, satu napas',
+      c: 'Bagian penutup buku merangkum [[sepuluh aturan ikigai]]: sederhana, bisa dimulai hari ini, dan saling melengkapi.',
+      p: [
+        'Untuk tubuh: tetap aktif, jangan terburu-buru, makan sampai [[80%]] kenyang, dan jaga kebugaran.',
+        'Untuk hati: [[tersenyum]], bersyukur, dan hadir sepenuhnya di saat ini.',
+        'Untuk arah: dekat dengan teman baik dan alam, lalu [[ikuti ikigai-mu]].'
+      ],
+      x: 'Pilih satu aturan yang paling mudah, jalani dua minggu, baru tambahkan aturan kedua.',
+      a: 'Sepuluh batu pijakan menanjak yang dikelompokkan untuk tubuh, hati, dan arah, berujung bendera',
+      i: '<svg viewBox="0 0 360 200" aria-hidden="true" focusable="false">' +
+         '<path class="acl dash" d="M30 160L330 52" opacity=".6"/>' +
+         '<ellipse class="ac ln" cx="30" cy="160" rx="15" ry="9"/>' +
+         '<ellipse class="ac ln" cx="63" cy="148" rx="15" ry="9"/>' +
+         '<ellipse class="ac ln" cx="97" cy="136" rx="15" ry="9"/>' +
+         '<ellipse class="ac ln" cx="130" cy="124" rx="15" ry="9"/>' +
+         '<ellipse class="hf ln" cx="163" cy="112" rx="15" ry="9"/>' +
+         '<ellipse class="hf ln" cx="197" cy="100" rx="15" ry="9"/>' +
+         '<ellipse class="hf ln" cx="230" cy="88" rx="15" ry="9"/>' +
+         '<ellipse class="sf ln" cx="263" cy="76" rx="15" ry="9"/>' +
+         '<ellipse class="sf ln" cx="297" cy="64" rx="15" ry="9"/>' +
+         '<ellipse class="sf ln" cx="330" cy="52" rx="15" ry="9"/>' +
+         '<path class="ln" d="M330 43V14"/>' +
+         '<path class="hf ln" d="M330 14L352 21L330 28Z"/>' +
+         '<text x="80" y="186" class="mut" text-anchor="middle">Tubuh</text>' +
+         '<text x="197" y="140" class="mut" text-anchor="middle">Hati</text>' +
+         '<text x="297" y="100" class="mut" text-anchor="middle">Arah</text>' +
+         '</svg>'
+    },
+    {
+      t: 'Mulai dari satu langkah kecil',
+      c: 'Kamu tak perlu menemukan ikigai sekaligus; cukup [[mulai bertanya]], mencoba hal kecil, dan [[menjaga yang terasa bermakna]].',
+      p: [
+        'Ikigai adalah [[alasan bangun pagi]], bukan gelar atau jabatan.',
+        'Kebiasaan kecil, makan secukupnya, flow, dan resiliensi [[saling menopang]].',
+        'Hubungan baik dan rasa syukur membuat hidup panjang terasa [[layak dijalani]].'
+      ],
+      x: '',
+      k: [
+        'Saya sudah menuliskan empat lingkaran ikigai versi saya',
+        'Saya memilih satu kebiasaan kecil untuk tujuh hari ke depan',
+        'Saya mencoba berhenti makan di sekitar 80% kenyang',
+        'Saya menjadwalkan 25 menit fokus untuk aktivitas yang saya sukai',
+        'Saya mengajak satu teman dekat untuk bertemu'
+      ],
+      cta: 'Baca bukunya langsung untuk cerita lengkapnya.',
+      a: 'Papan catatan dengan kotak centang dan matahari kecil di belakangnya',
+      i: '<svg viewBox="0 0 320 220" aria-hidden="true" focusable="false">' +
+         '<circle class="hf ln" cx="248" cy="62" r="24"/>' +
+         '<rect class="sf ln" x="96" y="32" width="128" height="164" rx="14"/>' +
+         '<rect class="ac ln" x="130" y="22" width="60" height="18" rx="6"/>' +
+         '<rect class="sf ln" x="116" y="64" width="18" height="18" rx="4"/>' +
+         '<rect class="sf ln" x="116" y="102" width="18" height="18" rx="4"/>' +
+         '<rect class="sf ln" x="116" y="140" width="18" height="18" rx="4"/>' +
+         '<path class="acl" d="M120 73l5 5l9-11M120 111l5 5l9-11" style="stroke-width:3"/>' +
+         '<path class="ln" d="M146 74H200M146 112H192M146 150H204" opacity=".4"/>' +
+         '<path class="acl" d="M60 120h14M67 113v14M270 150h14M277 143v14" opacity=".7"/>' +
+         '</svg>'
+    }
+  ];
+
+  /* =========================================================
+     RENDER
+     ========================================================= */
+  const N = S.length;
+  const stage = document.getElementById('stage');
+  const dotsEl = document.getElementById('dots');
+  const markEl = document.getElementById('mark');
+  const fillEl = document.getElementById('fill');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const RM = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const hl = (s) => esc(s).replace(/\[\[(.+?)\]\]/g, '<span class="hl">$1</span>');
+  const pad = (n) => String(n).padStart(2, '0');
+
+  const ICON_APPLY = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.7 2.7L16 9.5"/></svg>';
+  const ICON_ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+  const ICON_BOOK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7.5h8"/></svg>';
+
+  function build(d, n) {
+    const sec = document.createElement('section');
+    sec.className = 'slide';
+    sec.id = 'slide-' + (n + 1);
+    sec.setAttribute('role', 'group');
+    sec.setAttribute('aria-roledescription', 'slide');
+    sec.setAttribute('aria-label', (n + 1) + ' dari ' + N);
+    sec.setAttribute('aria-hidden', 'true');
+    sec.inert = true;
+
+    let r = 0;
+    const R = () => 'style="--i:' + (r++) + '"';
+
+    if (n === 0) {
+      sec.innerHTML =
+        '<div class="inner">' +
+          '<div class="col hero-col">' +
+            '<p class="kick rv" ' + R() + '>Resume buku</p>' +
+            '<h1 class="rv" ' + R() + '><span class="hl">' + esc(d.t) + '</span></h1>' +
+            '<p class="sub rv" ' + R() + '>' + esc(d.sub) + '</p>' +
+            '<p class="by rv" ' + R() + '>Karya ' + esc(d.au) + '</p>' +
+            '<p class="core rv" ' + R() + '>' + hl(d.c) + '</p>' +
+            '<div class="stat rv" ' + R() + '><span class="big"><span class="num" data-to="' + d.st.n + '">0</span>' + esc(d.st.s) + '</span><span class="cap">' + esc(d.st.l) + '</span></div>' +
+            '<button class="btn rv" type="button" data-next ' + R() + '>Mulai Baca ' + ICON_ARROW + '</button>' +
+          '</div>' +
+          '<figure class="ill rv" ' + R() + ' role="img" aria-label="' + esc(d.a) + '">' + d.i + '</figure>' +
+        '</div>';
+      return sec;
+    }
+
+    const left =
+      '<div class="col">' +
+        '<h2 class="rv" ' + R() + '>' + esc(d.t) + '</h2>' +
+        '<p class="core rv" ' + R() + '>' + hl(d.c) + '</p>' +
+        '<figure class="ill rv" ' + R() + ' role="img" aria-label="' + esc(d.a) + '">' + d.i + '</figure>' +
+      '</div>';
+
+    const pts = '<ul class="pts" role="list">' + d.p.map((p) => '<li class="pt rv" ' + R() + '><span>' + hl(p) + '</span></li>').join('') + '</ul>';
+
+    let extra = '';
+    if (d.x) {
+      extra = '<aside class="apply rv" ' + R() + '><p class="lab">' + ICON_APPLY + 'Terapkan</p><p>' + hl(d.x) + '</p></aside>';
+    }
+    if (d.k) {
+      extra =
+        '<fieldset class="check rv" ' + R() + '><legend>Checklist aksi</legend>' +
+          d.k.map((k) => '<label class="ck"><input type="checkbox"><span class="box" aria-hidden="true"></span><span class="tx">' + esc(k) + '</span></label>').join('') +
+          '<div class="prog"><div class="prog-b" aria-hidden="true"><span class="prog-f"></span></div><p class="prog-t" aria-live="polite"></p></div>' +
+        '</fieldset>' +
+        '<div class="cta rv" ' + R() + '>' + ICON_BOOK + '<span>' + esc(d.cta) + '</span></div>';
+    }
+
+    const right = '<div class="col">' + pts + extra + '</div>';
+    const disc = (n === N - 1) ? '<p class="disc rv" ' + R() + '>' + esc(DISCLAIMER) + '</p>' : '';
+
+    sec.innerHTML =
+      '<div class="inner' + (n === N - 1 ? ' last' : '') + '">' +
+        '<div class="bgnum" aria-hidden="true">' + pad(n + 1) + '</div>' +
+        left + right + disc +
+      '</div>';
+
+    const ck = sec.querySelector('.check');
+    if (ck) {
+      const boxes = Array.prototype.slice.call(ck.querySelectorAll('input'));
+      const out = ck.querySelector('.prog-t');
+      const bar = ck.querySelector('.prog-f');
+      const upd = () => {
+        const c = boxes.filter((b) => b.checked).length;
+        out.textContent = c === boxes.length ? 'Semua langkah siap. Selamat memulai!' : c + ' dari ' + boxes.length + ' aksi dipilih';
+        bar.style.width = (c / boxes.length * 100) + '%';
+      };
+      boxes.forEach((b) => b.addEventListener('change', upd));
+      upd();
+    }
+    return sec;
+  }
+
+  const secs = S.map((d, n) => {
+    const el = build(d, n);
+    stage.appendChild(el);
+    return el;
+  });
+
+  S.forEach((d, n) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'dot';
+    b.setAttribute('aria-label', 'Ke slide ' + (n + 1) + ': ' + d.t);
+    b.addEventListener('click', () => go(n));
+    dotsEl.appendChild(b);
+  });
+  const dots = Array.prototype.slice.call(dotsEl.children);
+
+  const nextInHero = secs[0].querySelector('[data-next]');
+  if (nextInHero) nextInHero.addEventListener('click', () => go(1));
+
+  /* =========================================================
+     NAVIGASI
+     ========================================================= */
+  let cur = -1;
+
+  function countUp(el) {
+    const to = +el.dataset.to;
+    if (el._raf) cancelAnimationFrame(el._raf);
+    if (RM.matches) { el.textContent = to; return; }
+    el.textContent = '0';
+    const t0 = performance.now() + 500, dur = 1400;
+    const step = (t) => {
+      const p = Math.max(0, Math.min(1, (t - t0) / dur));
+      el.textContent = Math.round(to * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) el._raf = requestAnimationFrame(step);
+    };
+    el._raf = requestAnimationFrame(step);
+  }
+
+  function setHash(n) {
+    try { history.replaceState(null, '', '#' + (n + 1)); } catch (e) { /* diabaikan di lingkungan yang membatasi history */ }
+  }
+
+  function go(n, silent) {
+    n = Math.max(0, Math.min(N - 1, n));
+    if (n === cur) return;
+    if (cur >= 0) {
+      const old = secs[cur];
+      old.classList.remove('on');
+      old.inert = true;
+      old.setAttribute('aria-hidden', 'true');
+    }
+    const s = secs[n];
+    s.scrollTop = 0;
+    s.classList.add('on');
+    s.inert = false;
+    s.removeAttribute('aria-hidden');
+    cur = n;
+
+    markEl.textContent = pad(n + 1) + ' / ' + pad(N);
+    fillEl.style.width = ((n + 1) / N * 100) + '%';
+    dots.forEach((d, i) => { if (i === n) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+    prevBtn.disabled = n === 0;
+    nextBtn.disabled = n === N - 1;
+
+    const num = s.querySelector('.num');
+    if (num) countUp(num);
+    if (!silent) setHash(n);
+  }
+
+  function fromHash() {
+    const m = /^#(\d+)$/.exec(window.location.hash);
+    return m ? Math.max(0, Math.min(N - 1, parseInt(m[1], 10) - 1)) : 0;
+  }
+
+  prevBtn.addEventListener('click', () => go(cur - 1));
+  nextBtn.addEventListener('click', () => go(cur + 1));
+  window.addEventListener('hashchange', () => go(fromHash(), true));
+
+  window.addEventListener('keydown', (e) => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    switch (e.key) {
+      case 'ArrowRight': case 'PageDown': e.preventDefault(); go(cur + 1); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); go(cur - 1); break;
+      case 'Home': e.preventDefault(); go(0); break;
+      case 'End': e.preventDefault(); go(N - 1); break;
+    }
+  });
+
+  let tx = 0, ty = 0;
+  stage.addEventListener('touchstart', (e) => {
+    const t = e.changedTouches[0]; tx = t.clientX; ty = t.clientY;
+  }, { passive: true });
+  stage.addEventListener('touchend', (e) => {
+    const t = e.changedTouches[0], dx = t.clientX - tx, dy = t.clientY - ty;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) go(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  go(fromHash(), true);
+})();
+</script>
+</body>
+</html>
