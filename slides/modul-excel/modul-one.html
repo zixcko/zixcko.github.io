@@ -1,0 +1,2393 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>Modul Microsoft Excel Sesi 1: Rumus Dasar · Zidan Workspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #fbfaf8;
+        --ink: #2b2a28;
+        --muted: #77736c;
+        --accent: #0061fe;
+        --soft: rgba(0, 97, 254, 0.09);
+        --hl: #ffe58f;
+        --line: rgba(43, 42, 40, 0.14);
+        --card: rgba(43, 42, 40, 0.045);
+        --serif: "Fraunces", "Lora", Georgia, serif;
+        --sans: "Inter", "DM Sans", system-ui, sans-serif;
+        --mono: ui-monospace, "SFMono-Regular", Consolas, Menlo, monospace;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1b1a18;
+          --ink: #f3f1ec;
+          --muted: #a39f97;
+          --accent: #5c9dff;
+          --soft: rgba(92, 157, 255, 0.16);
+          --hl: rgba(255, 229, 143, 0.3);
+          --line: rgba(243, 241, 236, 0.16);
+          --card: rgba(243, 241, 236, 0.06);
+        }
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        overflow: hidden;
+      }
+      .deck {
+        position: fixed;
+        inset: 0;
+      }
+      .slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: clamp(68px, 10vh, 100px) clamp(24px, 6vw, 100px) clamp(92px, 13vh, 120px);
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.6s ease,
+          visibility 0s linear 0.6s;
+      }
+      .slide.active {
+        opacity: 1;
+        visibility: visible;
+        transition:
+          opacity 0.6s ease,
+          visibility 0s;
+      }
+      .content {
+        margin: auto;
+        width: 100%;
+        max-width: 1160px;
+        min-width: 0;
+      }
+      .content > *,
+      .txt > * {
+        opacity: 0;
+        transform: translateY(14px);
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
+      }
+      .content.split > *,
+      .content.fx > * {
+        opacity: 1;
+        transform: none;
+      }
+      .slide.active .content > *,
+      .slide.active .txt > * {
+        opacity: 1;
+        transform: none;
+      }
+      .slide.active .content > :nth-child(2),
+      .slide.active .txt > :nth-child(2) {
+        transition-delay: 0.15s;
+      }
+      .slide.active .content > :nth-child(3),
+      .slide.active .txt > :nth-child(3) {
+        transition-delay: 0.3s;
+      }
+      .slide.active .content > :nth-child(4),
+      .slide.active .txt > :nth-child(4) {
+        transition-delay: 0.45s;
+      }
+      .slide.active .content > :nth-child(5),
+      .slide.active .txt > :nth-child(5) {
+        transition-delay: 0.6s;
+      }
+      .slide.active .content > :nth-child(6),
+      .slide.active .txt > :nth-child(6) {
+        transition-delay: 0.75s;
+      }
+      .slide.active .content.fx > *,
+      .slide.active .content.split > * {
+        transition-delay: 0s;
+      }
+      .notes {
+        display: none;
+      }
+      h1,
+      h2 {
+        font-family: var(--serif);
+        font-weight: 500;
+        letter-spacing: -0.015em;
+        line-height: 1.12;
+        text-wrap: balance;
+      }
+      h1 {
+        font-size: clamp(2.4rem, 5.6vw, 4.6rem);
+      }
+      h2 {
+        font-size: clamp(1.8rem, 3.5vw, 3rem);
+      }
+      mark {
+        background: linear-gradient(transparent 56%, var(--hl) 56%);
+        color: inherit;
+      }
+      .kicker {
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+      }
+      .kicker.pill {
+        display: table;
+        background: var(--hl);
+        color: var(--ink);
+        padding: 7px 14px;
+        border-radius: 99px;
+      }
+      .lead {
+        color: var(--muted);
+        font-size: clamp(1rem, 1.45vw, 1.2rem);
+        line-height: 1.6;
+        margin-top: 18px;
+        max-width: 62ch;
+      }
+      .lead b {
+        color: var(--ink);
+      }
+      .tegas {
+        font-family: var(--serif);
+        font-size: clamp(1.15rem, 1.9vw, 1.55rem);
+        line-height: 1.35;
+        margin-top: clamp(14px, 2.6vh, 26px);
+        padding-top: clamp(12px, 2vh, 20px);
+        border-top: 1px solid var(--line);
+      }
+      .by {
+        margin-top: 28px;
+        color: var(--muted);
+      }
+      .by b {
+        color: var(--accent);
+      }
+      code {
+        font-family: var(--mono);
+        font-size: 0.92em;
+      }
+      code.k {
+        background: var(--soft);
+        color: var(--accent);
+        padding: 1px 9px;
+        border-radius: 6px;
+        font-weight: 700;
+      }
+      .center {
+        text-align: center;
+      }
+      .center .lead {
+        margin-inline: auto;
+      }
+      .center .by {
+        margin-top: 18px;
+      }
+      .content.split {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: clamp(24px, 5vw, 72px);
+        align-items: center;
+      }
+      .illus > svg {
+        width: 100%;
+        height: auto;
+        max-height: 60vh;
+      }
+      .content.fx {
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+        gap: clamp(24px, 4.5vw, 64px);
+        align-items: center;
+      }
+      .txt,
+      .vis {
+        min-width: 0;
+      }
+      .fbar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: clamp(16px, 3vh, 28px);
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 10px 10px 10px 12px;
+      }
+      .fbar .cell {
+        font: 700 0.82rem var(--mono);
+        background: var(--accent);
+        color: var(--bg);
+        border-radius: 7px;
+        padding: 5px 9px;
+      }
+      .fbar code {
+        flex: 1;
+        min-width: 0;
+        font-size: clamp(0.88rem, 1.25vw, 1.12rem);
+        font-weight: 600;
+        overflow-wrap: anywhere;
+        line-height: 1.5;
+      }
+      .slide.active .fbar code {
+        animation: type 1.1s steps(30, end) 0.35s both;
+      }
+      @keyframes type {
+        from {
+          clip-path: inset(0 100% 0 0);
+        }
+        to {
+          clip-path: inset(0 0 0 0);
+        }
+      }
+      button {
+        font-family: var(--sans);
+        cursor: pointer;
+        color: inherit;
+      }
+      .copy,
+      .sep {
+        border: 1px solid var(--line);
+        background: var(--bg);
+        border-radius: 99px;
+        padding: 8px 14px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .copy:hover,
+      .sep:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      .pola {
+        margin-top: 10px;
+        font-size: 0.84rem;
+        color: var(--muted);
+        overflow-wrap: anywhere;
+      }
+      .pola code {
+        color: var(--accent);
+      }
+      .sw {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+      }
+      .xs {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: clamp(0.76rem, 1.15vw, 0.95rem);
+      }
+      .xs th,
+      .xs td {
+        border: 1px solid var(--line);
+        padding: clamp(5px, 1vh, 9px) clamp(6px, 0.8vw, 11px);
+        text-align: left;
+        white-space: nowrap;
+      }
+      .xs tr:first-child > * {
+        border-top: 0;
+      }
+      .xs tr > :first-child {
+        border-left: 0;
+      }
+      .xs tr > :last-child {
+        border-right: 0;
+      }
+      .xs tbody tr:last-child > * {
+        border-bottom: 0;
+      }
+      .xs th {
+        background: var(--card);
+        color: var(--muted);
+        font-weight: 600;
+        text-align: center;
+        font-size: 0.9em;
+      }
+      .xs tbody th {
+        width: 34px;
+      }
+      .xs .num {
+        text-align: right;
+        font-variant-numeric: tabular-nums;
+      }
+      .xs .hd,
+      .xs .lb {
+        font-weight: 700;
+      }
+      .xs .wrap {
+        white-space: normal;
+        text-align: left;
+      }
+      .xs td.r,
+      .xs td.m,
+      .xs td.res {
+        transition:
+          background-color 0.5s ease var(--d, 0s),
+          box-shadow 0.5s ease var(--d, 0s);
+      }
+      .slide.active td.r {
+        background: var(--soft);
+      }
+      .slide.active td.m {
+        background: var(--hl);
+      }
+      .slide.active td.res {
+        background: var(--hl);
+        box-shadow: inset 0 0 0 2px var(--accent);
+        transition-delay: 1.5s;
+        animation: res 0.6s ease 1.5s both;
+      }
+      td.res {
+        font-weight: 700;
+      }
+      @keyframes res {
+        from {
+          color: transparent;
+        }
+        to {
+          color: var(--ink);
+        }
+      }
+      .vis .sw + .cap + .sw {
+        margin-top: 0;
+      }
+      .cap {
+        font-size: 0.8rem;
+        color: var(--muted);
+        margin: 8px 2px 16px;
+        line-height: 1.5;
+      }
+      .cap:last-child {
+        margin-bottom: 0;
+      }
+      .duo {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+        gap: 24px;
+        margin-top: clamp(16px, 3vh, 28px);
+        align-items: start;
+      }
+      .act {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+        margin-top: clamp(14px, 2.6vh, 24px);
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .btn {
+        background: var(--accent);
+        color: var(--bg);
+        border: 0;
+        border-radius: 99px;
+        padding: 13px 24px;
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+      .anat {
+        display: grid;
+        grid-template-columns: 0.7fr 1fr 1.5fr;
+        gap: 16px;
+        margin: clamp(24px, 5vh, 48px) auto 0;
+        max-width: 900px;
+      }
+      .anat div {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        padding: clamp(18px, 3vh, 30px) 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .anat b {
+        font-family: var(--mono);
+        font-size: clamp(1.8rem, 4vw, 3.2rem);
+        color: var(--accent);
+      }
+      .anat span {
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .center .tegas {
+        display: inline-block;
+      }
+      .tasks {
+        margin-top: clamp(16px, 3vh, 28px);
+      }
+      .task {
+        border-top: 1px solid var(--line);
+        padding: clamp(12px, 2.2vh, 20px) 0;
+      }
+      .task p {
+        font-family: var(--serif);
+        font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+        line-height: 1.35;
+      }
+      .ans {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 18px;
+        align-items: center;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition:
+          max-height 0.5s ease,
+          opacity 0.5s ease,
+          margin 0.5s;
+      }
+      .ans code {
+        color: var(--accent);
+        overflow-wrap: anywhere;
+        min-width: 0;
+      }
+      .ans b {
+        background: var(--hl);
+        padding: 2px 10px;
+        border-radius: 6px;
+      }
+      .tasks.show .ans {
+        max-height: 140px;
+        opacity: 1;
+        margin-top: 10px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        margin: clamp(22px, 4vh, 38px) auto 0;
+        max-width: 760px;
+      }
+      .chips span {
+        font: 600 0.95rem var(--mono);
+        color: var(--accent);
+        background: var(--soft);
+        border-radius: 99px;
+        padding: 9px 18px;
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      .slide.active .chips span {
+        opacity: 1;
+        transform: none;
+        transition: 0.6s ease var(--d);
+      }
+      .pop {
+        opacity: 0;
+        transform: scale(0.82);
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+      .slide.active .pop {
+        opacity: 1;
+        transform: none;
+        transition:
+          opacity 0.6s ease var(--d, 0s),
+          transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.25) var(--d, 0s);
+      }
+      .draw {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+      }
+      .slide.active .draw {
+        stroke-dashoffset: 0;
+        transition: stroke-dashoffset 1.5s ease var(--d, 0.5s);
+      }
+      .shutter {
+        transform-box: fill-box;
+        transform: scaleY(0.05);
+      }
+      .slide.active .shutter {
+        transform: scaleY(1);
+        transition: transform 1.2s cubic-bezier(0.3, 0.7, 0.2, 1) var(--d, 0.6s);
+      }
+      @keyframes floaty {
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      .slide.active .floaty {
+        animation: floaty 4.2s ease-in-out infinite;
+      }
+      .s-ln {
+        fill: none;
+        stroke: var(--accent);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+      }
+      .s-fl {
+        fill: var(--soft);
+        stroke: var(--accent);
+        stroke-width: 2;
+      }
+      .s-cd {
+        fill: var(--bg);
+        stroke: var(--ink);
+        stroke-opacity: 0.25;
+        stroke-width: 2;
+      }
+      .s-ac {
+        fill: var(--accent);
+      }
+      .s-hl {
+        fill: var(--hl);
+        stroke: var(--accent);
+        stroke-width: 2.5;
+      }
+      .svt {
+        font: 700 22px var(--mono);
+        fill: var(--accent);
+      }
+      .brand {
+        position: fixed;
+        top: 22px;
+        left: clamp(18px, 3vw, 36px);
+        font-size: 0.82rem;
+        color: var(--muted);
+        z-index: 5;
+      }
+      .brand b {
+        color: var(--ink);
+      }
+      .top {
+        position: fixed;
+        top: 12px;
+        right: clamp(14px, 3vw, 36px);
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        z-index: 5;
+      }
+      .count {
+        font-size: 0.82rem;
+        color: var(--muted);
+        font-variant-numeric: tabular-nums;
+      }
+      .sep b {
+        font-family: var(--mono);
+        color: var(--accent);
+        font-size: 1rem;
+      }
+      .prog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: var(--accent);
+        width: 0;
+        transition: width 0.5s ease;
+        z-index: 6;
+      }
+      .nav {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        padding: 26px 20px calc(18px + env(safe-area-inset-bottom));
+        background: linear-gradient(to top, var(--bg) 62%, transparent);
+        pointer-events: none;
+        z-index: 5;
+      }
+      .nav > * {
+        pointer-events: auto;
+      }
+      .nav > button {
+        width: 42px;
+        height: 42px;
+        flex: none;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: var(--bg);
+        font-size: 1.1rem;
+      }
+      .nav > button:disabled {
+        opacity: 0.3;
+        cursor: default;
+      }
+      .dots {
+        display: flex;
+        gap: 5px;
+        width: min(300px, 52vw);
+        justify-content: center;
+      }
+      .dots button {
+        flex: 1 1 0;
+        max-width: 8px;
+        height: 8px;
+        border: 0;
+        border-radius: 99px;
+        background: var(--line);
+        transition: 0.35s;
+      }
+      .dots button.on {
+        flex-grow: 3;
+        max-width: 22px;
+        background: var(--accent);
+      }
+      .copyr {
+        position: fixed;
+        right: clamp(14px, 3vw, 36px);
+        bottom: calc(30px + env(safe-area-inset-bottom));
+        font-size: 0.74rem;
+        color: var(--muted);
+        z-index: 6;
+      }
+      .copyr a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .copyr b {
+        color: var(--accent);
+      }
+      .notes-panel {
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 84px;
+        width: min(640px, 92vw);
+        max-height: 40vh;
+        overflow: auto;
+        background: var(--ink);
+        color: var(--bg);
+        padding: 18px 22px;
+        border-radius: 14px;
+        font-size: 0.92rem;
+        line-height: 1.6;
+        display: none;
+        z-index: 9;
+      }
+      .show-notes .notes-panel {
+        display: block;
+      }
+      @media (max-width: 960px) {
+        .slide {
+          padding-bottom: 128px;
+        }
+        .nav {
+          padding-bottom: calc(38px + env(safe-area-inset-bottom));
+        }
+        .copyr {
+          bottom: calc(10px + env(safe-area-inset-bottom));
+        }
+        .notes-panel {
+          bottom: 110px;
+        }
+      }
+      @media (max-width: 699px), (max-width: 860px) and (min-height: 521px) {
+        .content.split,
+        .content.fx,
+        .duo {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .content.split .illus {
+          order: -1;
+        }
+        .illus > svg {
+          max-height: 30vh;
+        }
+      }
+      @media (max-width: 720px) {
+        .brand {
+          display: none;
+        }
+        .top {
+          left: 14px;
+          justify-content: space-between;
+        }
+        .anat {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+        .anat div {
+          padding: 14px;
+          gap: 6px;
+        }
+        .dots {
+          gap: 3px;
+        }
+        .nav {
+          gap: 10px;
+        }
+      }
+      @media (max-width: 720px) {
+        .xs {
+          font-size: 0.72rem;
+        }
+        .xs th,
+        .xs td {
+          padding-inline: 5px;
+        }
+        .xs tbody th {
+          width: 22px;
+        }
+        .duo .xs {
+          font-size: 0.66rem;
+        }
+        .duo .xs th,
+        .duo .xs td {
+          padding-inline: 4px;
+        }
+      }
+      @media (max-width: 380px) {
+        h1 {
+          font-size: 2.05rem;
+        }
+        h2 {
+          font-size: 1.55rem;
+        }
+        .slide {
+          padding-inline: 16px;
+        }
+        .xs {
+          font-size: 0.7rem;
+        }
+        .fbar {
+          flex-wrap: wrap;
+        }
+        .fbar code {
+          flex-basis: 70%;
+        }
+      }
+      @media (max-height: 820px) and (min-width: 861px) {
+        .slide {
+          padding-top: 56px;
+          padding-bottom: 84px;
+        }
+        h1 {
+          font-size: clamp(2.4rem, 8vh, 4rem);
+        }
+        h2 {
+          font-size: clamp(1.7rem, 5vh, 2.5rem);
+        }
+        .lead {
+          margin-top: 12px;
+          font-size: 1rem;
+          line-height: 1.5;
+        }
+        .xs {
+          font-size: 0.82rem;
+        }
+        .xs th,
+        .xs td {
+          padding-block: 4px;
+        }
+        .tegas {
+          font-size: 1.15rem;
+        }
+        .kicker {
+          margin-bottom: 8px;
+        }
+        .cap {
+          margin: 5px 2px 9px;
+        }
+        .vis .xs th,
+        .vis .xs td {
+          padding-block: 3px;
+        }
+      }
+      @media (max-height: 520px) {
+        .slide {
+          padding-top: 54px;
+          padding-bottom: 96px;
+        }
+        h1 {
+          font-size: 2rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+        }
+        .illus > svg {
+          max-height: 62vh;
+        }
+      }
+      @media (max-height: 520px) and (min-width: 700px) {
+        .slide {
+          padding-bottom: 76px;
+        }
+        .nav {
+          padding-bottom: 12px;
+        }
+        .copyr {
+          bottom: 24px;
+        }
+      }
+      @media (max-width: 720px) and (min-height: 521px) {
+        .slide {
+          padding-top: 62px;
+        }
+        h2 {
+          font-size: 1.55rem;
+        }
+        .kicker {
+          margin-bottom: 8px;
+        }
+        .fbar {
+          margin-top: 12px;
+          padding: 7px 8px;
+        }
+        .fbar code {
+          font-size: 0.84rem;
+        }
+        .pola {
+          margin-top: 6px;
+          font-size: 0.76rem;
+        }
+        .lead {
+          margin-top: 10px;
+          font-size: 0.92rem;
+          line-height: 1.48;
+        }
+        .tegas {
+          font-size: 1.02rem;
+          margin-top: 10px;
+          padding-top: 9px;
+        }
+        .content.fx {
+          gap: 14px;
+        }
+        .xs th,
+        .xs td {
+          padding-block: 4px;
+        }
+        .duo {
+          gap: 10px;
+          margin-top: 14px;
+        }
+        .cap {
+          margin-bottom: 8px;
+        }
+        .act {
+          margin-top: 10px;
+          gap: 10px;
+        }
+      }
+      @media (max-height: 520px) and (min-width: 700px) {
+        .slide {
+          padding: 46px 28px 66px;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+        h2 {
+          font-size: 1.3rem;
+        }
+        .kicker {
+          margin-bottom: 5px;
+          font-size: 0.64rem;
+        }
+        .content.fx,
+        .content.split {
+          gap: 22px;
+        }
+        .fbar {
+          margin-top: 8px;
+          padding: 5px 7px;
+        }
+        .fbar code {
+          font-size: 0.76rem;
+        }
+        .copy {
+          padding: 5px 10px;
+          font-size: 0.7rem;
+        }
+        .pola {
+          margin-top: 4px;
+          font-size: 0.66rem;
+        }
+        .lead {
+          margin-top: 6px;
+          font-size: 0.76rem;
+          line-height: 1.4;
+        }
+        .tegas {
+          font-size: 0.86rem;
+          margin-top: 7px;
+          padding-top: 6px;
+        }
+        .xs {
+          font-size: 0.66rem;
+        }
+        .xs th,
+        .xs td,
+        .vis .xs th,
+        .vis .xs td {
+          padding: 1px 5px;
+        }
+        .cap,
+        .vis .cap {
+          font-size: 0.62rem;
+          margin: 2px 2px 4px;
+        }
+        .duo {
+          gap: 12px;
+          margin-top: 8px;
+        }
+        .act {
+          margin-top: 6px;
+          font-size: 0.76rem;
+        }
+        .btn {
+          padding: 7px 14px;
+          font-size: 0.76rem;
+        }
+        .by {
+          margin-top: 10px;
+        }
+        .anat {
+          margin-top: 12px;
+          gap: 10px;
+        }
+        .anat div {
+          padding: 8px;
+          gap: 4px;
+        }
+        .anat b {
+          font-size: 1.5rem;
+        }
+        .anat span {
+          font-size: 0.72rem;
+        }
+        .tasks {
+          margin-top: 6px;
+        }
+        .task {
+          padding: 5px 0;
+        }
+        .task p {
+          font-size: 1rem;
+        }
+        .ans {
+          font-size: 0.72rem;
+        }
+        .tasks.show .ans {
+          margin-top: 3px;
+        }
+        .chips {
+          margin-top: 12px;
+          gap: 6px;
+        }
+        .chips span {
+          font-size: 0.72rem;
+          padding: 5px 11px;
+        }
+        .illus > svg {
+          max-height: 56vh;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="prog"></div>
+    <div class="brand"><b>Zidan Workspace</b> · Modul Microsoft Excel, Sesi 1</div>
+    <div class="top">
+      <button class="sep" type="button" title="Ganti pemisah rumus">Pemisah <b>;</b></button
+      ><span class="count"></span>
+    </div>
+    <main class="deck">
+      <section class="slide">
+        <div class="content split">
+          <div class="txt">
+            <p class="kicker">Modul Microsoft Excel / Spreadsheet · Sesi 1</p>
+            <h1>Rumus dasar untuk <mark>laporan yang rapi</mark>.</h1>
+            <p class="lead">
+              Sepuluh rumus yang sering dipakai dalam administrasi pelaporan, lengkap dengan contoh
+              pengerjaannya.
+            </p>
+            <p class="by">by <b>Zidan Workspace</b></p>
+          </div>
+          <div class="illus floaty">
+            <svg viewBox="0 0 480 450" role="img" aria-label="Ilustrasi lembar kerja">
+              <rect class="s-cd" x="16" y="16" width="448" height="426" rx="22" />
+              <rect class="s-fl" x="40" y="40" width="392" height="48" rx="12" />
+              <text class="svt" x="60" y="72">=SUM(F2:F7)</text>
+              <rect class="pop s-cd" style="--d: 0.3s" x="40" y="112" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.38s" x="140" y="112" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.46s" x="240" y="112" width="92" height="38" rx="7" />
+              <rect class="pop s-fl" style="--d: 0.54s" x="340" y="112" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.38s" x="40" y="158" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.46s" x="140" y="158" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.54s" x="240" y="158" width="92" height="38" rx="7" />
+              <rect class="pop s-fl" style="--d: 0.62s" x="340" y="158" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.46s" x="40" y="204" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.54s" x="140" y="204" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.62s" x="240" y="204" width="92" height="38" rx="7" />
+              <rect class="pop s-fl" style="--d: 0.7s" x="340" y="204" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.54s" x="40" y="250" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.62s" x="140" y="250" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.7s" x="240" y="250" width="92" height="38" rx="7" />
+              <rect class="pop s-fl" style="--d: 0.78s" x="340" y="250" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.62s" x="40" y="296" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.7s" x="140" y="296" width="92" height="38" rx="7" />
+              <rect class="pop s-cd" style="--d: 0.78s" x="240" y="296" width="92" height="38" rx="7" />
+              <rect class="pop s-hl" style="--d: 0.86s" x="340" y="296" width="92" height="38" rx="7" />
+              <path class="draw s-ln" pathLength="100" style="--d: 1.4s" d="M58 432 H320" />
+              <rect
+                class="shutter s-ac"
+                style="--d: 0.9s; transform-origin: bottom"
+                x="58"
+                y="394"
+                width="22"
+                height="36"
+                rx="5"
+              />
+              <rect
+                class="shutter s-ac"
+                style="--d: 1.02s; transform-origin: bottom"
+                x="96"
+                y="372"
+                width="22"
+                height="58"
+                rx="5"
+              />
+              <rect
+                class="shutter s-ac"
+                style="--d: 1.14s; transform-origin: bottom"
+                x="134"
+                y="382"
+                width="22"
+                height="48"
+                rx="5"
+              />
+              <rect
+                class="shutter s-ac"
+                style="--d: 1.26s; transform-origin: bottom"
+                x="172"
+                y="354"
+                width="22"
+                height="76"
+                rx="5"
+              />
+              <rect
+                class="shutter s-ac"
+                style="--d: 1.38s; transform-origin: bottom"
+                x="210"
+                y="366"
+                width="22"
+                height="64"
+                rx="5"
+              />
+              <rect
+                class="shutter s-ac"
+                style="--d: 1.5s; transform-origin: bottom"
+                x="248"
+                y="342"
+                width="22"
+                height="88"
+                rx="5"
+              />
+              <rect
+                class="shutter s-ac"
+                style="--d: 1.62s; transform-origin: bottom"
+                x="286"
+                y="360"
+                width="22"
+                height="70"
+                rx="5"
+              />
+            </svg>
+          </div>
+        </div>
+        <aside class="notes">
+          Sapa peserta dan jelaskan bahwa sesi ini langsung praktik. Minta semua membuka Excel atau Google
+          Sheets dengan lembar kosong.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content center">
+          <p class="kicker">Sebelum mulai</p>
+          <h2>Setiap rumus selalu diawali tanda <mark>sama dengan</mark>.</h2>
+          <div class="anat">
+            <div><b>=</b><span>tanda mulai menghitung</span></div>
+            <div><b>SUM</b><span>nama rumus</span></div>
+            <div><b>(F2:F7)</b><span>sel yang dihitung, dari F2 sampai F7</span></div>
+          </div>
+          <p class="lead">
+            Contoh di sini memakai pemisah <code class="k sp">;</code> (format Indonesia). Jika komputermu
+            memakai <code class="k">,</code> tekan tombol <b>Pemisah</b> di kanan atas.
+          </p>
+          <p class="tegas">Kenali polanya, rumus apa pun jadi lebih mudah.</p>
+        </div>
+        <aside class="notes">
+          Tunjukkan formula bar di Excel. Jebakan umum: lupa tanda sama dengan, atau pemisah argumen tidak
+          sesuai pengaturan regional. Tanyakan pemisah yang muncul di komputer peserta.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content">
+          <p class="kicker">Data latihan · Pengeluaran ATK November 2026</p>
+          <h2>Satu tabel untuk <mark>semua latihan</mark>.</h2>
+          <div class="duo">
+            <div>
+              <div class="sw">
+                <table class="xs">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>A</th>
+                      <th>B</th>
+                      <th>C</th>
+                      <th>D</th>
+                      <th>E</th>
+                      <th>F</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>1</th>
+                      <td class="hd">Tanggal</td>
+                      <td class="hd">Barang</td>
+                      <td class="hd">Divisi</td>
+                      <td class="hd">Qty</td>
+                      <td class="hd">Harga</td>
+                      <td class="hd">Total</td>
+                    </tr>
+                    <tr>
+                      <th>2</th>
+                      <td class="">02/11</td>
+                      <td class="">Kertas A4</td>
+                      <td class="">Keuangan</td>
+                      <td class="num">10</td>
+                      <td class="num">55.000</td>
+                      <td class="num">550.000</td>
+                    </tr>
+                    <tr>
+                      <th>3</th>
+                      <td class="">04/11</td>
+                      <td class="">Tinta Printer</td>
+                      <td class="">Umum</td>
+                      <td class="num">4</td>
+                      <td class="num">90.000</td>
+                      <td class="num">360.000</td>
+                    </tr>
+                    <tr>
+                      <th>4</th>
+                      <td class="">09/11</td>
+                      <td class="">Map Arsip</td>
+                      <td class="">HRD</td>
+                      <td class="num">25</td>
+                      <td class="num">4.000</td>
+                      <td class="num">100.000</td>
+                    </tr>
+                    <tr>
+                      <th>5</th>
+                      <td class="">12/11</td>
+                      <td class="">Kertas A4</td>
+                      <td class="">HRD</td>
+                      <td class="num">6</td>
+                      <td class="num">55.000</td>
+                      <td class="num">330.000</td>
+                    </tr>
+                    <tr>
+                      <th>6</th>
+                      <td class="">18/11</td>
+                      <td class="">Pulpen</td>
+                      <td class="">Keuangan</td>
+                      <td class="num">5</td>
+                      <td class="num">30.000</td>
+                      <td class="num">150.000</td>
+                    </tr>
+                    <tr>
+                      <th>7</th>
+                      <td class="">23/11</td>
+                      <td class="">Tinta Printer</td>
+                      <td class="">Keuangan</td>
+                      <td class="num">3</td>
+                      <td class="num">90.000</td>
+                      <td class="num">270.000</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="cap">Kolom Total diisi dengan <code>=D2*E2</code>, lalu ditarik sampai baris 7.</p>
+            </div>
+            <div>
+              <div class="sw">
+                <table class="xs">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>I</th>
+                      <th>J</th>
+                      <th>K</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th>1</th>
+                      <td class="hd">Barang</td>
+                      <td class="hd">Satuan</td>
+                      <td class="hd">Harga</td>
+                    </tr>
+                    <tr>
+                      <th>2</th>
+                      <td class="">Kertas A4</td>
+                      <td class="">Rim</td>
+                      <td class="num">55.000</td>
+                    </tr>
+                    <tr>
+                      <th>3</th>
+                      <td class="">Tinta Printer</td>
+                      <td class="">Botol</td>
+                      <td class="num">90.000</td>
+                    </tr>
+                    <tr>
+                      <th>4</th>
+                      <td class="">Map Arsip</td>
+                      <td class="">Pcs</td>
+                      <td class="num">4.000</td>
+                    </tr>
+                    <tr>
+                      <th>5</th>
+                      <td class="">Pulpen</td>
+                      <td class="">Box</td>
+                      <td class="num">30.000</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="cap">Daftar harga barang, dipakai untuk pencarian.</p>
+            </div>
+          </div>
+          <div class="act">
+            <button class="btn" id="copyData" type="button">Salin data latihan</button
+            ><span>Klik sel <b>A1</b>, lalu tempel (Ctrl + V).</span>
+          </div>
+          <textarea id="tsv" hidden>
+Tanggal	Barang	Divisi	Qty	Harga	Total	Status		Barang	Satuan	Harga		Cari Barang	Harga
+2026-11-02	Kertas A4	Keuangan	10	55000	=D2*E2			Kertas A4	Rim	55000		Tinta Printer	
+2026-11-04	Tinta Printer	Umum	4	90000	=D3*E3			Tinta Printer	Botol	90000		Stapler	
+2026-11-09	Map Arsip	HRD	25	4000	=D4*E4			Map Arsip	Pcs	4000			
+2026-11-12	Kertas A4	HRD	6	55000	=D5*E5			Pulpen	Box	30000			
+2026-11-18	Pulpen	Keuangan	5	30000	=D6*E6								
+2026-11-23	Tinta Printer	Keuangan	3	90000	=D7*E7								
+				Total									
+				Rata-rata									
+				Tertinggi									
+				Terendah									
+				Jumlah Transaksi									
+				Transaksi Keuangan									
+				Total Keuangan									
+				Kalimat Laporan									</textarea
+          >
+        </div>
+        <aside class="notes">
+          Data ini contoh fiktif untuk latihan. Tombol salin juga menyiapkan label ringkasan di E8 sampai E15
+          dan sel pencarian di M2 dan M3. Jika tombol tidak bekerja, minta peserta mengetik sesuai tabel.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">SUM · Menjumlahkan</p>
+            <h2>Total pengeluaran dalam <mark>satu rumus</mark>.</h2>
+            <div class="fbar">
+              <span class="cell">F8</span><code>=SUM(F2:F7)</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">Pola <code>=SUM(rentang)</code></p>
+            <p class="lead">
+              Klik <b>F8</b>, ketik rumusnya, tekan Enter. Excel menghitung 550.000 + 360.000 + 100.000 +
+              330.000 + 150.000 + 270.000 = <b>1.760.000</b>.
+            </p>
+            <p class="tegas">Angka berubah, total ikut berubah.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>B</th>
+                    <th>E</th>
+                    <th>F</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>2</th>
+                    <td class="">Kertas A4</td>
+                    <td class="num">55.000</td>
+                    <td class="num r" style="--d: 0.7s">550.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                    <td class="num r" style="--d: 0.79s">360.000</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="">Map Arsip</td>
+                    <td class="num">4.000</td>
+                    <td class="num r" style="--d: 0.88s">100.000</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="">Kertas A4</td>
+                    <td class="num">55.000</td>
+                    <td class="num r" style="--d: 0.97s">330.000</td>
+                  </tr>
+                  <tr>
+                    <th>6</th>
+                    <td class="">Pulpen</td>
+                    <td class="num">30.000</td>
+                    <td class="num r" style="--d: 1.06s">150.000</td>
+                  </tr>
+                  <tr>
+                    <th>7</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                    <td class="num r" style="--d: 1.15s">270.000</td>
+                  </tr>
+                  <tr>
+                    <th>8</th>
+                    <td class=""></td>
+                    <td class="lb">Total</td>
+                    <td class="num res">1.760.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Ajak peserta mengubah satu Qty lalu melihat total berubah, kemudian kembalikan. Pintasan AutoSum di
+          Windows: Alt dan tanda sama dengan.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">AVERAGE · Rata-rata</p>
+            <h2>Berapa <mark>rata-rata</mark> tiap transaksi?</h2>
+            <div class="fbar">
+              <span class="cell">F9</span><code>=AVERAGE(F2:F7)</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">Pola <code>=AVERAGE(rentang)</code></p>
+            <p class="lead">
+              Total 1.760.000 dibagi 6 transaksi = <b>293.333</b> (desimal dibulatkan pada tampilan).
+            </p>
+            <p class="tegas">Rata-rata memberi gambaran pengeluaran yang wajar.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>B</th>
+                    <th>E</th>
+                    <th>F</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>2</th>
+                    <td class="">Kertas A4</td>
+                    <td class="num">55.000</td>
+                    <td class="num r" style="--d: 0.7s">550.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                    <td class="num r" style="--d: 0.79s">360.000</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="">Map Arsip</td>
+                    <td class="num">4.000</td>
+                    <td class="num r" style="--d: 0.88s">100.000</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="">Kertas A4</td>
+                    <td class="num">55.000</td>
+                    <td class="num r" style="--d: 0.97s">330.000</td>
+                  </tr>
+                  <tr>
+                    <th>6</th>
+                    <td class="">Pulpen</td>
+                    <td class="num">30.000</td>
+                    <td class="num r" style="--d: 1.06s">150.000</td>
+                  </tr>
+                  <tr>
+                    <th>7</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                    <td class="num r" style="--d: 1.15s">270.000</td>
+                  </tr>
+                  <tr>
+                    <th>9</th>
+                    <td class=""></td>
+                    <td class="lb">Rata-rata</td>
+                    <td class="num res">293.333</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Hasil asli 293.333,33. Sel kosong tidak ikut dihitung, tetapi angka nol ikut dihitung. Atur desimal
+          lewat tombol Decrease Decimal.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">MAX &amp; MIN · Nilai ekstrem</p>
+            <h2>Temukan transaksi <mark>terbesar</mark> seketika.</h2>
+            <div class="fbar">
+              <span class="cell">F10</span><code>=MAX(F2:F7)</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">Pola <code>=MAX(rentang)</code></p>
+            <p class="lead">
+              Dari enam nilai, yang tertinggi <b>550.000</b>. Di <b>F11</b> ketik
+              <code>=MIN(F2:F7)</code> untuk yang terendah, hasilnya <b>100.000</b>.
+            </p>
+            <p class="tegas">MAX mencari puncak, MIN mencari dasar.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>B</th>
+                    <th>E</th>
+                    <th>F</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>2</th>
+                    <td class="">Kertas A4</td>
+                    <td class="num">55.000</td>
+                    <td class="num r m" style="--d: 0.7s">550.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                    <td class="num r" style="--d: 0.79s">360.000</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="">Map Arsip</td>
+                    <td class="num">4.000</td>
+                    <td class="num r" style="--d: 0.88s">100.000</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="">Kertas A4</td>
+                    <td class="num">55.000</td>
+                    <td class="num r" style="--d: 0.97s">330.000</td>
+                  </tr>
+                  <tr>
+                    <th>6</th>
+                    <td class="">Pulpen</td>
+                    <td class="num">30.000</td>
+                    <td class="num r" style="--d: 1.06s">150.000</td>
+                  </tr>
+                  <tr>
+                    <th>7</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                    <td class="num r" style="--d: 1.15s">270.000</td>
+                  </tr>
+                  <tr>
+                    <th>10</th>
+                    <td class=""></td>
+                    <td class="lb">Tertinggi</td>
+                    <td class="num res">550.000</td>
+                  </tr>
+                  <tr>
+                    <th>11</th>
+                    <td class=""></td>
+                    <td class="lb">Terendah</td>
+                    <td class="num res">100.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Berguna untuk menandai pengeluaran yang perlu dijelaskan di laporan. Tanyakan: barang apa yang
+          nilainya paling besar?
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">COUNTA · Menghitung isian</p>
+            <h2>Ada berapa <mark>transaksi</mark> yang tercatat?</h2>
+            <div class="fbar">
+              <span class="cell">F12</span><code>=COUNTA(B2:B7)</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">Pola <code>=COUNTA(rentang)</code></p>
+            <p class="lead">
+              COUNTA menghitung sel yang <b>tidak kosong</b>. B2 sampai B7 terisi semua, hasilnya <b>6</b>.
+            </p>
+            <p class="tegas">Teks pakai COUNTA, khusus angka pakai COUNT.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>B</th>
+                    <th>E</th>
+                    <th>F</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>2</th>
+                    <td class="r" style="--d: 0.7s">Kertas A4</td>
+                    <td class="num">55.000</td>
+                    <td class="num">550.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="r" style="--d: 0.79s">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                    <td class="num">360.000</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="r" style="--d: 0.88s">Map Arsip</td>
+                    <td class="num">4.000</td>
+                    <td class="num">100.000</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="r" style="--d: 0.97s">Kertas A4</td>
+                    <td class="num">55.000</td>
+                    <td class="num">330.000</td>
+                  </tr>
+                  <tr>
+                    <th>6</th>
+                    <td class="r" style="--d: 1.06s">Pulpen</td>
+                    <td class="num">30.000</td>
+                    <td class="num">150.000</td>
+                  </tr>
+                  <tr>
+                    <th>7</th>
+                    <td class="r" style="--d: 1.15s">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                    <td class="num">270.000</td>
+                  </tr>
+                  <tr>
+                    <th>12</th>
+                    <td class=""></td>
+                    <td class="lb">Jumlah Transaksi</td>
+                    <td class="num res">6</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Coba =COUNT(B2:B7), hasilnya 0 karena isinya teks. Sel berisi spasi tetap dihitung oleh COUNTA.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">COUNTIF · Menghitung bersyarat</p>
+            <h2>Hitung hanya yang <mark>memenuhi syarat</mark>.</h2>
+            <div class="fbar">
+              <span class="cell">F13</span
+              ><code>=COUNTIF(C2:C7<span class="sp">;</span><wbr />"Keuangan")</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">
+              Pola <code>=COUNTIF(rentang<span class="sp">;</span><wbr />kriteria)</code>
+            </p>
+            <p class="lead">Kata Keuangan muncul di baris 2, 6 dan 7, hasilnya <b>3</b> transaksi.</p>
+            <p class="tegas">Kriteria berupa teks ditulis di antara tanda kutip.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>C</th>
+                    <th>E</th>
+                    <th>F</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>2</th>
+                    <td class="r m" style="--d: 0.7s">Keuangan</td>
+                    <td class="num">55.000</td>
+                    <td class="num">550.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="r" style="--d: 0.79s">Umum</td>
+                    <td class="num">90.000</td>
+                    <td class="num">360.000</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="r" style="--d: 0.88s">HRD</td>
+                    <td class="num">4.000</td>
+                    <td class="num">100.000</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="r" style="--d: 0.97s">HRD</td>
+                    <td class="num">55.000</td>
+                    <td class="num">330.000</td>
+                  </tr>
+                  <tr>
+                    <th>6</th>
+                    <td class="r m" style="--d: 1.06s">Keuangan</td>
+                    <td class="num">30.000</td>
+                    <td class="num">150.000</td>
+                  </tr>
+                  <tr>
+                    <th>7</th>
+                    <td class="r m" style="--d: 1.15s">Keuangan</td>
+                    <td class="num">90.000</td>
+                    <td class="num">270.000</td>
+                  </tr>
+                  <tr>
+                    <th>13</th>
+                    <td class=""></td>
+                    <td class="lb">Transaksi Keuangan</td>
+                    <td class="num res">3</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          COUNTIF tidak membedakan huruf besar dan kecil. Salah ketik atau spasi berlebih membuat data tidak
+          terhitung.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">SUMIF · Menjumlah bersyarat</p>
+            <h2>Total pengeluaran <mark>per divisi</mark>.</h2>
+            <div class="fbar">
+              <span class="cell">F14</span
+              ><code
+                >=SUMIF(C2:C7<span class="sp">;</span><wbr />"Keuangan"<span class="sp">;</span
+                ><wbr />F2:F7)</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">
+              Pola
+              <code
+                >=SUMIF(rentang_kriteria<span class="sp">;</span><wbr />kriteria<span class="sp">;</span
+                ><wbr />rentang_jumlah)</code
+              >
+            </p>
+            <p class="lead">
+              Cari Keuangan di kolom C, jumlahkan kolom F pada baris yang sama: 550.000 + 150.000 + 270.000 =
+              <b>970.000</b>.
+            </p>
+            <p class="tegas">Rekap per divisi tanpa menyaring data satu per satu.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>C</th>
+                    <th>E</th>
+                    <th>F</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>2</th>
+                    <td class="r m" style="--d: 0.7s">Keuangan</td>
+                    <td class="num">55.000</td>
+                    <td class="num r m" style="--d: 0.79s">550.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="r" style="--d: 0.88s">Umum</td>
+                    <td class="num">90.000</td>
+                    <td class="num">360.000</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="r" style="--d: 0.97s">HRD</td>
+                    <td class="num">4.000</td>
+                    <td class="num">100.000</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="r" style="--d: 1.06s">HRD</td>
+                    <td class="num">55.000</td>
+                    <td class="num">330.000</td>
+                  </tr>
+                  <tr>
+                    <th>6</th>
+                    <td class="r m" style="--d: 1.15s">Keuangan</td>
+                    <td class="num">30.000</td>
+                    <td class="num r m" style="--d: 1.24s">150.000</td>
+                  </tr>
+                  <tr>
+                    <th>7</th>
+                    <td class="r m" style="--d: 1.33s">Keuangan</td>
+                    <td class="num">90.000</td>
+                    <td class="num r m" style="--d: 1.42s">270.000</td>
+                  </tr>
+                  <tr>
+                    <th>14</th>
+                    <td class=""></td>
+                    <td class="lb">Total Keuangan</td>
+                    <td class="num res">970.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Kedua rentang harus sama panjang. Untuk lebih dari satu syarat, kenalkan SUMIFS yang urutannya
+          dimulai dari rentang jumlah.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">IF · Keputusan otomatis</p>
+            <h2>Biarkan rumus memberi <mark>status</mark>.</h2>
+            <div class="fbar">
+              <span class="cell">G2</span
+              ><code
+                >=IF(F2&gt;300000<span class="sp">;</span><wbr />"Cek Atasan"<span class="sp">;</span
+                ><wbr />"Disetujui")</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">
+              Pola
+              <code
+                >=IF(syarat<span class="sp">;</span><wbr />jika_benar<span class="sp">;</span
+                ><wbr />jika_salah)</code
+              >
+            </p>
+            <p class="lead">
+              F2 bernilai 550.000, lebih dari 300.000, hasilnya <b>Cek Atasan</b>. Tarik kotak kecil di sudut
+              G2 sampai G7.
+            </p>
+            <p class="tegas">Satu aturan, berlaku sama untuk semua baris.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>B</th>
+                    <th>F</th>
+                    <th>G</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>2</th>
+                    <td class="">Kertas A4</td>
+                    <td class="num">550.000</td>
+                    <td class="res">Cek Atasan</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">360.000</td>
+                    <td class="r m" style="--d: 0.7s">Cek Atasan</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="">Map Arsip</td>
+                    <td class="num">100.000</td>
+                    <td class="r" style="--d: 0.79s">Disetujui</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="">Kertas A4</td>
+                    <td class="num">330.000</td>
+                    <td class="r m" style="--d: 0.88s">Cek Atasan</td>
+                  </tr>
+                  <tr>
+                    <th>6</th>
+                    <td class="">Pulpen</td>
+                    <td class="num">150.000</td>
+                    <td class="r" style="--d: 0.97s">Disetujui</td>
+                  </tr>
+                  <tr>
+                    <th>7</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">270.000</td>
+                    <td class="r" style="--d: 1.06s">Disetujui</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Batas 300.000 hanya aturan contoh. Nilai yang tepat 300.000 akan Disetujui karena syaratnya lebih
+          besar dari, bukan lebih besar sama dengan.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">VLOOKUP · Mencari data</p>
+            <h2>Harga terisi <mark>otomatis</mark> dari daftar.</h2>
+            <div class="fbar">
+              <span class="cell">N2</span
+              ><code
+                >=VLOOKUP(M2<span class="sp">;</span><wbr />$I$2:$K$5<span class="sp">;</span><wbr />3<span
+                  class="sp"
+                  >;</span
+                ><wbr />FALSE)</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">
+              Pola
+              <code
+                >=VLOOKUP(dicari<span class="sp">;</span><wbr />tabel<span class="sp">;</span
+                ><wbr />nomor_kolom<span class="sp">;</span><wbr />FALSE)</code
+              >
+            </p>
+            <p class="lead">
+              Cari isi M2 di kolom I, ambil data <b>kolom ke-3</b> tabel, hasilnya <b>90.000</b>. FALSE
+              berarti harus sama persis.
+            </p>
+            <p class="tegas">Tanda $ mengunci tabel agar tidak bergeser saat disalin.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>I</th>
+                    <th>J</th>
+                    <th>K</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td class="hd">Barang</td>
+                    <td class="hd">Satuan</td>
+                    <td class="hd">Harga</td>
+                  </tr>
+                  <tr>
+                    <th>2</th>
+                    <td class="r" style="--d: 0.7s">Kertas A4</td>
+                    <td class="">Rim</td>
+                    <td class="num">55.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="r m" style="--d: 0.79s">Tinta Printer</td>
+                    <td class="">Botol</td>
+                    <td class="num r m" style="--d: 0.88s">90.000</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="r" style="--d: 0.97s">Map Arsip</td>
+                    <td class="">Pcs</td>
+                    <td class="num">4.000</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="r" style="--d: 1.06s">Pulpen</td>
+                    <td class="">Box</td>
+                    <td class="num">30.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="cap">Tabel acuan</p>
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>M</th>
+                    <th>N</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td class="hd">Cari Barang</td>
+                    <td class="hd">Harga</td>
+                  </tr>
+                  <tr>
+                    <th>2</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num res">90.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="cap">Tempat pencarian</p>
+          </div>
+        </div>
+        <aside class="notes">
+          Nilai yang dicari harus berada di kolom paling kiri tabel. Tekan F4 untuk menambah tanda dolar. Di
+          Microsoft 365 dan Excel 2021 ke atas ada alternatif XLOOKUP.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">IFERROR · Merapikan error</p>
+            <h2>Ganti #N/A dengan <mark>pesan yang jelas</mark>.</h2>
+            <div class="fbar">
+              <span class="cell">N3</span
+              ><code
+                >=IFERROR(VLOOKUP(M3<span class="sp">;</span><wbr />$I$2:$K$5<span class="sp">;</span
+                ><wbr />3<span class="sp">;</span><wbr />FALSE)<span class="sp">;</span><wbr />"Belum
+                terdaftar")</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">
+              Pola <code>=IFERROR(rumus<span class="sp">;</span><wbr />pengganti_jika_error)</code>
+            </p>
+            <p class="lead">
+              Stapler tidak ada di daftar. Tanpa IFERROR muncul <b>#N/A</b>, dengan IFERROR tampil
+              <b>Belum terdaftar</b>.
+            </p>
+            <p class="tegas">Laporan yang bersih lebih mudah dipercaya.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>I</th>
+                    <th>J</th>
+                    <th>K</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td class="hd">Barang</td>
+                    <td class="hd">Satuan</td>
+                    <td class="hd">Harga</td>
+                  </tr>
+                  <tr>
+                    <th>2</th>
+                    <td class="r" style="--d: 0.7s">Kertas A4</td>
+                    <td class="">Rim</td>
+                    <td class="num">55.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="r" style="--d: 0.79s">Tinta Printer</td>
+                    <td class="">Botol</td>
+                    <td class="num">90.000</td>
+                  </tr>
+                  <tr>
+                    <th>4</th>
+                    <td class="r" style="--d: 0.88s">Map Arsip</td>
+                    <td class="">Pcs</td>
+                    <td class="num">4.000</td>
+                  </tr>
+                  <tr>
+                    <th>5</th>
+                    <td class="r" style="--d: 0.97s">Pulpen</td>
+                    <td class="">Box</td>
+                    <td class="num">30.000</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="cap">Tabel acuan</p>
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>M</th>
+                    <th>N</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>1</th>
+                    <td class="hd">Cari Barang</td>
+                    <td class="hd">Harga</td>
+                  </tr>
+                  <tr>
+                    <th>2</th>
+                    <td class="">Tinta Printer</td>
+                    <td class="num">90.000</td>
+                  </tr>
+                  <tr>
+                    <th>3</th>
+                    <td class="">Stapler</td>
+                    <td class="res">Belum terdaftar</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="cap">Tempat pencarian</p>
+          </div>
+        </div>
+        <aside class="notes">
+          Peringatkan bahwa IFERROR menutupi semua jenis error, termasuk salah tulis rujukan. Pastikan rumus
+          dalamnya benar dulu, baru dibungkus.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content fx">
+          <div class="txt">
+            <p class="kicker">TEXT · Format angka dalam kalimat</p>
+            <h2>Angka menyatu rapi dalam <mark>kalimat laporan</mark>.</h2>
+            <div class="fbar">
+              <span class="cell">F15</span
+              ><code
+                >="Total November: Rp "&amp;TEXT(F8<span class="sp">;</span><wbr />"<span class="fm"
+                  >#.##0</span
+                >")</code
+              ><button class="copy" type="button">Salin</button>
+            </div>
+            <p class="pola">
+              Pola <code>=TEXT(nilai<span class="sp">;</span><wbr />format)</code>
+            </p>
+            <p class="lead">
+              TEXT mengubah 1760000 menjadi <b class="th">1.760.000</b>. Tanda <b>&amp;</b> menyambungkannya
+              dengan kalimat.
+            </p>
+            <p class="tegas">Hasil TEXT berupa teks, jadi hitung dulu, format kemudian.</p>
+          </div>
+          <div class="vis">
+            <div class="sw">
+              <table class="xs">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>E</th>
+                    <th>F</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th>8</th>
+                    <td class="lb">Total</td>
+                    <td class="num r" style="--d: 0.7s">1.760.000</td>
+                  </tr>
+                  <tr>
+                    <th>15</th>
+                    <td class="lb">Kalimat Laporan</td>
+                    <td class="res wrap">Total November: Rp <span class="th">1.760.000</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <aside class="notes">
+          Kode format mengikuti pengaturan regional: format Indonesia memakai titik untuk ribuan, format
+          Inggris memakai koma. Tombol Pemisah ikut menukarnya.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content">
+          <p class="kicker pill">Giliran kamu</p>
+          <h2>Jawab dengan rumus, bukan hitung manual.</h2>
+          <div class="tasks">
+            <div class="task">
+              <p>Berapa total pengeluaran divisi <mark>HRD</mark>?</p>
+              <div class="ans">
+                <code
+                  >=SUMIF(C2:C7<span class="sp">;</span><wbr />"HRD"<span class="sp">;</span
+                  ><wbr />F2:F7)</code
+                ><b>430.000</b>
+              </div>
+            </div>
+            <div class="task">
+              <p>Berapa kali <mark>Kertas A4</mark> dibeli?</p>
+              <div class="ans">
+                <code>=COUNTIF(B2:B7<span class="sp">;</span><wbr />"Kertas A4")</code><b>2 kali</b>
+              </div>
+            </div>
+            <div class="task">
+              <p>Tampilkan harga <mark>Map Arsip</mark> secara otomatis.</p>
+              <div class="ans">
+                <code
+                  >=VLOOKUP("Map Arsip"<span class="sp">;</span><wbr />$I$2:$K$5<span class="sp">;</span
+                  ><wbr />3<span class="sp">;</span><wbr />FALSE)</code
+                ><b>4.000</b>
+              </div>
+            </div>
+          </div>
+          <div class="act">
+            <button class="btn" id="reveal" type="button">Lihat jawaban</button
+            ><span>Coba dulu selama beberapa menit.</span>
+          </div>
+        </div>
+        <aside class="notes">
+          Beri waktu sekitar lima menit. Minta satu peserta menunjukkan rumusnya di layar sebelum jawaban
+          dibuka.
+        </aside>
+      </section>
+      <section class="slide">
+        <div class="content center">
+          <p class="kicker">Penutup Sesi 1</p>
+          <h1>Rumus dikuasai lewat <mark>latihan</mark>, bukan hafalan.</h1>
+          <div class="chips">
+            <span style="--d: 0.4s">SUM</span><span style="--d: 0.48s">AVERAGE</span
+            ><span style="--d: 0.56s">MAX &amp; MIN</span><span style="--d: 0.64s">COUNTA</span
+            ><span style="--d: 0.72s">COUNTIF</span><span style="--d: 0.8s">SUMIF</span
+            ><span style="--d: 0.88s">IF</span><span style="--d: 0.96s">VLOOKUP</span
+            ><span style="--d: 1.04s">IFERROR</span><span style="--d: 1.12s">TEXT</span>
+          </div>
+          <p class="lead">Pakai di laporan nyatamu minggu ini. Sampai jumpa di sesi berikutnya.</p>
+          <p class="by">by <b>Zidan Workspace</b></p>
+        </div>
+        <aside class="notes">
+          Tanyakan rumus mana yang paling berguna untuk pekerjaan peserta. Tutup dengan tugas membuat rekap
+          sederhana dari data sendiri.
+        </aside>
+      </section>
+    </main>
+    <div class="nav">
+      <button id="prev" type="button" aria-label="Sebelumnya">←</button>
+      <div class="dots"></div>
+      <button id="next" type="button" aria-label="Berikutnya">→</button>
+    </div>
+    <div class="copyr">
+      © 2026 · by
+      <a href="https://zixcko.github.io" target="_blank" rel="noopener noreferrer"><b>Zidan Workspace</b></a>
+    </div>
+    <div class="notes-panel"></div>
+    <script>
+      (function () {
+        var $ = function (s) {
+            return document.querySelector(s);
+          },
+          all = function (s) {
+            return [].slice.call(document.querySelectorAll(s));
+          };
+        var slides = all(".slide"),
+          total = slides.length,
+          current = -1,
+          dots = $(".dots");
+        function pad(n) {
+          return (n < 10 ? "0" : "") + n;
+        }
+        slides.forEach(function (s, i) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.setAttribute("aria-label", "Slide " + (i + 1));
+          b.onclick = function () {
+            go(i);
+          };
+          dots.appendChild(b);
+        });
+        function clamp(i) {
+          return Math.min(Math.max(i, 0), total - 1);
+        }
+        function readHash() {
+          var n = parseInt((location.hash || "").slice(1), 10);
+          return isNaN(n) ? 0 : clamp(n - 1);
+        }
+        function show(i) {
+          i = clamp(i);
+          if (i === current) return;
+          if (current >= 0) slides[current].classList.remove("active");
+          current = i;
+          slides[i].classList.add("active");
+          slides[i].scrollTop = 0;
+          [].forEach.call(dots.children, function (d, k) {
+            d.classList.toggle("on", k === i);
+          });
+          $(".count").textContent = pad(i + 1) + " / " + pad(total);
+          $(".prog").style.width = ((i + 1) / total) * 100 + "%";
+          $("#prev").disabled = i === 0;
+          $("#next").disabled = i === total - 1;
+          $(".notes-panel").textContent = slides[i].querySelector(".notes").textContent;
+        }
+        function go(i) {
+          i = clamp(i);
+          var t = "#" + (i + 1);
+          if (location.hash !== t) {
+            try {
+              history.replaceState(null, "", t);
+            } catch (e) {
+              location.hash = t;
+            }
+          }
+          show(i);
+        }
+        $("#prev").onclick = function () {
+          go(current - 1);
+        };
+        $("#next").onclick = function () {
+          go(current + 1);
+        };
+        addEventListener("hashchange", function () {
+          show(readHash());
+        });
+        addEventListener("keydown", function (e) {
+          if (e.metaKey || e.ctrlKey || e.altKey) return;
+          if ((e.key === " " || e.key === "Enter") && e.target.closest && e.target.closest("button,a"))
+            return;
+          if (["ArrowRight", "ArrowDown", "PageDown", "Enter", " "].indexOf(e.key) > -1) {
+            e.preventDefault();
+            go(current + 1);
+          } else if (["ArrowLeft", "ArrowUp", "PageUp"].indexOf(e.key) > -1) {
+            e.preventDefault();
+            go(current - 1);
+          } else if (e.key === "Home") go(0);
+          else if (e.key === "End") go(total - 1);
+          else if (e.key === "n" || e.key === "N") document.body.classList.toggle("show-notes");
+          else if (e.key === "Escape") document.body.classList.remove("show-notes");
+        });
+        var x = null,
+          y = null;
+        addEventListener(
+          "touchstart",
+          function (e) {
+            var t = e.target,
+              w = t.closest && t.closest(".sw");
+            if (e.touches.length > 1) {
+              x = null;
+              return;
+            }
+            if (
+              t.closest &&
+              (t.closest(".nav,.notes-panel,.top,a,button") || (w && w.scrollWidth > w.clientWidth + 1))
+            ) {
+              x = null;
+              return;
+            }
+            x = e.touches[0].clientX;
+            y = e.touches[0].clientY;
+          },
+          { passive: true },
+        );
+        addEventListener(
+          "touchend",
+          function (e) {
+            if (x === null) return;
+            var dx = e.changedTouches[0].clientX - x,
+              dy = e.changedTouches[0].clientY - y;
+            if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.3) go(current + (dx < 0 ? 1 : -1));
+            x = null;
+          },
+          { passive: true },
+        );
+        var comma = false;
+        $(".sep").onclick = function () {
+          comma = !comma;
+          all(".sp").forEach(function (n) {
+            n.textContent = comma ? "," : ";";
+          });
+          all(".fm").forEach(function (n) {
+            n.textContent = comma ? "#,##0" : "#.##0";
+          });
+          all(".th").forEach(function (n) {
+            n.textContent = n.textContent.replace(/[.,]/g, comma ? "," : ".");
+          });
+          this.querySelector("b").textContent = comma ? "," : ";";
+        };
+        function copy(text, btn) {
+          var old = btn.textContent;
+          function done(ok) {
+            btn.textContent = ok ? "Tersalin ✓" : "Gagal, salin manual";
+            setTimeout(function () {
+              btn.textContent = old;
+            }, 1800);
+          }
+          function fb() {
+            var a = document.createElement("textarea");
+            a.value = text;
+            a.style.position = "fixed";
+            a.style.opacity = "0";
+            document.body.appendChild(a);
+            a.select();
+            var ok = false;
+            try {
+              ok = document.execCommand("copy");
+            } catch (e) {}
+            a.remove();
+            done(ok);
+          }
+          if (navigator.clipboard && navigator.clipboard.writeText)
+            navigator.clipboard.writeText(text).then(function () {
+              done(true);
+            }, fb);
+          else fb();
+        }
+        all(".copy").forEach(function (b) {
+          b.onclick = function () {
+            copy(b.parentNode.querySelector("code").textContent.replace(/\s+/g, " ").trim(), b);
+          };
+        });
+        $("#copyData").onclick = function () {
+          copy($("#tsv").value, this);
+        };
+        $("#reveal").onclick = function () {
+          var on = $(".tasks").classList.toggle("show");
+          this.textContent = on ? "Sembunyikan jawaban" : "Lihat jawaban";
+        };
+        show(readHash());
+      })();
+    </script>
+  </body>
+</html>
